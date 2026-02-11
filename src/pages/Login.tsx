@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Eye, EyeOff, Mail, Lock, ChevronRight } from "lucide-react";
@@ -10,17 +10,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
-
-  useEffect(() => {
-    if (user) {
-      navigate("/", { replace: true });
-    }
-  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,11 +97,7 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="flex justify-end">
-              <Link to="/forgot-password" disable-navigation="true" className="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
-                Forgot password?
-              </Link>
-            </div>
+            {/* Forgot Password link removed as page is missing */}
 
             <button
               type="submit"

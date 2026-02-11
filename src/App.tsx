@@ -16,7 +16,6 @@ import ProductDetail from "./pages/ProductDetail";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
 import Cart from "./pages/Cart";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -43,7 +42,6 @@ const App = () => (
                 {/* Public Auth Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
 
                 {/* Protected Routes */}
                 <Route element={<ProtectedRoute />}>
