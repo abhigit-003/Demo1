@@ -11,9 +11,15 @@ const categoryLabels: Record<string, string> = {
   wellness: "Wellness & Healing",
 };
 
-const Services = () => {
+interface ServicesProps {
+  category?: string;
+}
+
+const Services = ({ category: propCategory }: ServicesProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const category = searchParams.get("category");
+  const urlCategory = searchParams.get("category");
+  const category = propCategory || urlCategory;
+
   const { toggleFavorite, isFavorite } = useFavorites();
   const { ref, isVisible } = useScrollReveal(0.05);
 

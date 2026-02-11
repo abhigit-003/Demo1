@@ -4,12 +4,12 @@ import { useCart } from "@/context/CartContext";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-    { label: "Spa", to: "/services?category=spa" },
-    { label: "Hair", to: "/services?category=hair" },
-    { label: "Fitness", to: "/services?category=fitness" },
-    { label: "Wellness", to: "/services?category=wellness" },
-    { label: "Shop", to: "/shop" },
-    { label: "Editorial", to: "/editorial" },
+    { label: "Spa", to: "/home/spa" },
+    { label: "Hair", to: "/home/hair" },
+    { label: "Fitness", to: "/home/fitness" },
+    { label: "Wellness", to: "/home/wellness" },
+    { label: "Shop", to: "/home/shop" },
+    { label: "Editorial", to: "/home/editorial" },
 ];
 
 const Navbar = () => {
@@ -44,7 +44,7 @@ const Navbar = () => {
         <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-raffine-burgundy text-raffine-gold font-display antialiased">
             <div className="px-6 md:px-12 py-5 flex items-center justify-between max-w-[1536px] mx-auto">
                 {/* Logo Section - Left */}
-                <Link to="/" className="flex items-center gap-3 group shrink-0">
+                <Link to="/home" className="flex items-center gap-3 group shrink-0">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-raffine-pink text-white shadow-lg shadow-raffine-pink/20 transition-transform group-hover:scale-105">
                         <span className="text-xl font-black tracking-tighter">R</span>
                     </div>
@@ -76,7 +76,7 @@ const Navbar = () => {
                     >
                         <Search className="size-[22px] stroke-[1.5px]" />
                     </button>
-                    <Link to="/favorites" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Favorites">
+                    <Link to="/home/favorites" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Favorites">
                         <Heart className="size-[22px] stroke-[1.5px]" />
                     </Link>
                     <Link to="/cart" className="relative flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Cart">
@@ -87,7 +87,7 @@ const Navbar = () => {
                             </span>
                         )}
                     </Link>
-                    <Link to="/dashboard" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Profile">
+                    <Link to="/home/dashboard" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Profile">
                         <User className="size-[22px] stroke-[1.5px]" />
                     </Link>
                     <button
@@ -143,8 +143,8 @@ const Navbar = () => {
                             </Link>
                         ))}
                         <div className="pt-8 border-t border-white/5 flex gap-8">
-                            <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><Heart /></Link>
-                            <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><User /></Link>
+                            <Link to="/home/cart" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><Heart /></Link>
+                            <Link to="/home/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><User /></Link>
                         </div>
                     </div>
                 </div>
