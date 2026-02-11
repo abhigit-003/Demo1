@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Eye, EyeOff, Mail, Lock, User, ChevronRight } from "lucide-react";
@@ -12,8 +12,14 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register } = useAuth();
+  const { user, register } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +60,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex px-6 py-20 items-center justify-center">
+    <div className="flex min-h-screen px-6 py-20 items-center justify-center bg-raffine-burgundy selection:bg-raffine-pink/30">
       <div className="w-full max-w-md animate-in fade-in zoom-in duration-500">
         <div className="text-center mb-10">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-raffine-pink text-white shadow-xl shadow-raffine-pink/30 mb-6 transition-transform hover:rotate-3">
