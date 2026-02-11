@@ -98,85 +98,83 @@ const SearchResults = () => {
     };
 
     return (
-        <div className="min-h-screen bg-raffine-bg-dark pt-24 pb-20">
-            <div className="max-w-[1440px] mx-auto px-4 md:px-10">
-                <div className="mb-12 text-center md:text-left">
-                    <h1 className="text-3xl md:text-5xl font-display text-white mb-4">
-                        Search Results
-                    </h1>
-                    <p className="text-raffine-gold/60 text-lg">
-                        {hasResults
-                            ? `Found ${totalResults} results for "${q}"`
-                            : `No results found for "${q}"`}
-                    </p>
-                </div>
+        <div className="max-w-[1440px] mx-auto px-4 md:px-10 py-12">
+            <div className="mb-12 text-center md:text-left">
+                <h1 className="text-3xl md:text-5xl font-display text-white mb-4">
+                    Search Results
+                </h1>
+                <p className="text-raffine-gold/60 text-lg">
+                    {hasResults
+                        ? `Found ${totalResults} results for "${q}"`
+                        : `No results found for "${q}"`}
+                </p>
+            </div>
 
-                {!hasResults && (
-                    <div className="py-20 text-center border border-white/10 rounded-3xl bg-white/5 shadow-inner">
-                        <div className="size-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Search className="size-10 text-white/20" />
-                        </div>
-                        <p className="text-white/40 text-xl font-light max-w-md mx-auto">
-                            We couldn't find any results matching your search. Try different keywords or browse our categories.
-                        </p>
-                        <Link
-                            to="/"
-                            className="mt-8 inline-block bg-raffine-primary text-white px-8 py-4 rounded-lg text-sm font-bold uppercase tracking-widest hover:bg-raffine-primary/90 transition-all transform hover:-translate-y-1 shadow-lg"
-                        >
-                            Explore Collections
-                        </Link>
+            {!hasResults && (
+                <div className="py-20 text-center border border-white/10 rounded-3xl bg-white/5 shadow-inner">
+                    <div className="size-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Search className="size-10 text-white/20" />
                     </div>
+                    <p className="text-white/40 text-xl font-light max-w-md mx-auto">
+                        We couldn't find any results matching your search. Try different keywords or browse our categories.
+                    </p>
+                    <Link
+                        to="/"
+                        className="mt-8 inline-block bg-raffine-pink text-white px-8 py-4 rounded-lg text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-all transform hover:-translate-y-1 shadow-lg"
+                    >
+                        Explore Collections
+                    </Link>
+                </div>
+            )}
+
+            <div className="space-y-20">
+                {/* Services Group */}
+                {filteredServices.length > 0 && (
+                    <section>
+                        <div className="flex items-center gap-4 mb-8">
+                            <Sparkles className="size-6 text-raffine-pink" />
+                            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
+                                Experiences & Services
+                            </h2>
+                            <div className="h-px bg-white/10 flex-1 ml-4" />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {filteredServices.map(svc => <ResultCard key={svc.id} item={svc} />)}
+                        </div>
+                    </section>
                 )}
 
-                <div className="space-y-20">
-                    {/* Services Group */}
-                    {filteredServices.length > 0 && (
-                        <section>
-                            <div className="flex items-center gap-4 mb-8">
-                                <Sparkles className="size-6 text-raffine-primary" />
-                                <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
-                                    Experiences & Services
-                                </h2>
-                                <div className="h-px bg-white/10 flex-1 ml-4" />
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {filteredServices.map(svc => <ResultCard key={svc.id} item={svc} />)}
-                            </div>
-                        </section>
-                    )}
+                {/* Products Group */}
+                {filteredProducts.length > 0 && (
+                    <section>
+                        <div className="flex items-center gap-4 mb-8">
+                            <ShoppingBag className="size-6 text-raffine-pink" />
+                            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
+                                Clean Beauty Products
+                            </h2>
+                            <div className="h-px bg-white/10 flex-1 ml-4" />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {filteredProducts.map(p => <ResultCard key={p.id} item={p} />)}
+                        </div>
+                    </section>
+                )}
 
-                    {/* Products Group */}
-                    {filteredProducts.length > 0 && (
-                        <section>
-                            <div className="flex items-center gap-4 mb-8">
-                                <ShoppingBag className="size-6 text-raffine-primary" />
-                                <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
-                                    Clean Beauty Products
-                                </h2>
-                                <div className="h-px bg-white/10 flex-1 ml-4" />
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                                {filteredProducts.map(p => <ResultCard key={p.id} item={p} />)}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Items Group */}
-                    {filteredItems.length > 0 && (
-                        <section>
-                            <div className="flex items-center gap-4 mb-8">
-                                <Tag className="size-6 text-raffine-primary" />
-                                <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
-                                    Lifestyle Items
-                                </h2>
-                                <div className="h-px bg-white/10 flex-1 ml-4" />
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                                {filteredItems.map(i => <ResultCard key={i.id} item={i} />)}
-                            </div>
-                        </section>
-                    )}
-                </div>
+                {/* Items Group */}
+                {filteredItems.length > 0 && (
+                    <section>
+                        <div className="flex items-center gap-4 mb-8">
+                            <Tag className="size-6 text-raffine-pink" />
+                            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
+                                Lifestyle Items
+                            </h2>
+                            <div className="h-px bg-white/10 flex-1 ml-4" />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {filteredItems.map(i => <ResultCard key={i.id} item={i} />)}
+                        </div>
+                    </section>
+                )}
             </div>
         </div>
     );
