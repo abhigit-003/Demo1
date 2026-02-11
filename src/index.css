@@ -4,7 +4,8 @@
 
 @layer base {
   :root {
-    --background: 340 30% 10%;
+    --background: 340 34% 13%;
+    /* #2d161e */
     --foreground: 340 20% 90%;
 
     --card: 340 28% 13%;
@@ -58,7 +59,12 @@
     font-family: 'Manrope', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Manrope', sans-serif;
   }
 }
@@ -89,6 +95,7 @@
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -99,6 +106,7 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
