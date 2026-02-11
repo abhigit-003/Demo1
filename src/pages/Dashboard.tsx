@@ -24,9 +24,15 @@ const schedule = [
 ];
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return <Navigate to="/login" replace />;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="pb-20">
@@ -36,6 +42,12 @@ const Dashboard = () => {
             <h1 className="text-3xl font-bold text-white uppercase tracking-widest">Dashboard</h1>
             <p className="mt-1 text-gray-400">Welcome back, {user.name}</p>
           </div>
+          <button
+            onClick={handleLogout}
+            className="rounded-lg border border-white/10 bg-white/5 px-5 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-raffine-pink hover:bg-raffine-pink/10 transition-all"
+          >
+            Sign Out
+          </button>
         </div>
 
         {/* Stats */}
