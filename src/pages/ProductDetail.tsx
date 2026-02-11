@@ -17,7 +17,7 @@ const ProductDetail = () => {
       <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white uppercase tracking-widest">Product not found</h1>
-          <Link to="/" className="mt-4 inline-block text-raffine-pink hover:opacity-80 transition-opacity">← Back to Home</Link>
+          <Link to="/home" className="mt-4 inline-block text-raffine-pink hover:opacity-80 transition-opacity">← Back to Home</Link>
         </div>
       </div>
     );
@@ -31,7 +31,7 @@ const ProductDetail = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-12">
-      <Link to="/" className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors">
+      <Link to="/home" className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors">
         <ChevronLeft className="h-4 w-4" /> Back
       </Link>
 

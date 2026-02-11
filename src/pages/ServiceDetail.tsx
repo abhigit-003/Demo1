@@ -13,7 +13,7 @@ const ServiceDetail = () => {
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground">Service not found</h1>
-          <Link to="/services" className="mt-4 inline-block text-primary hover:text-primary/80">← Back to Services</Link>
+          <Link to="/home/spa" className="mt-4 inline-block text-primary hover:text-primary/80">← Back to Services</Link>
         </div>
       </div>
     );
@@ -22,7 +22,7 @@ const ServiceDetail = () => {
   return (
     <div className="pb-20">
       <div className="mx-auto max-w-7xl px-6 py-12">
-        <Link to="/services" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <Link to="/home/spa" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ChevronLeft className="h-4 w-4" /> Back to Services
         </Link>
 
