@@ -17,26 +17,42 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem("raffine_user");
-    return stored ? JSON.parse(stored) : null;
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        console.error("Failed to parse stored user", e);
+        return null;
+      }
+    }
+    return null;
   });
 
   useEffect(() => {
-    if (user) localStorage.setItem("raffine_user", JSON.stringify(user));
-    else localStorage.removeItem("raffine_user");
+    if (user) {
+      localStorage.setItem("raffine_user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("raffine_user");
+    }
   }, [user]);
 
   const login = (email: string, _password: string) => {
-    const u = { email, name: email.split("@")[0] };
+    // For now, accept any non-empty password
+    const name = email.split("@")[0].charAt(0).toUpperCase() + email.split("@")[0].slice(1);
+    const u = { email, name };
     setUser(u);
     return true;
   };
 
   const register = (name: string, email: string, _password: string) => {
-    setUser({ email, name });
+    const u = { email, name };
+    setUser(u);
     return true;
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>

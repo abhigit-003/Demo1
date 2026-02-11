@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { FavoritesProvider } from "./context/FavoritesContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import MainLayout from "./components/MainLayout";
 import RaffineLanding from "./pages/RaffineLanding";
 import Index from "./pages/Index";
@@ -36,26 +37,32 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                <Route element={<MainLayout />}>
-                  <Route path="/" element={<RaffineLanding />} />
-                  <Route path="/home" element={<Index />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/services/:id" element={<ServiceDetail />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/item/:id" element={<ProductDetail />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/terms" element={<Terms />} />
-                  <Route path="/search" element={<SearchResults />} />
-                  <Route path="/shop" element={<Shop />} />
-                  <Route path="/editorial" element={<EditorialPage />} />
-                  <Route path="/service/:id" element={<ServiceDetail />} />
-                  <Route path="*" element={<NotFound />} />
+                {/* Public Auth Routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+
+                {/* Protected Routes */}
+                <Route element={<ProtectedRoute />}>
+                  <Route element={<MainLayout />}>
+                    <Route path="/" element={<RaffineLanding />} />
+                    <Route path="/home" element={<Index />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/services/:id" element={<ServiceDetail />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/item/:id" element={<ProductDetail />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/search" element={<SearchResults />} />
+                    <Route path="/shop" element={<Shop />} />
+                    <Route path="/editorial" element={<EditorialPage />} />
+                    <Route path="/service/:id" element={<ServiceDetail />} />
+                  </Route>
                 </Route>
+
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </FavoritesProvider>
