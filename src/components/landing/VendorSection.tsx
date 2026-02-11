@@ -34,7 +34,7 @@ const VendorSection = () => {
           ))}
         </div>
         <div className="mt-12 text-center">
-          <Link to="/dashboard" className="inline-flex h-12 items-center rounded-lg bg-primary px-8 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
+          <Link to="/home/dashboard" className="inline-flex h-12 items-center rounded-lg bg-primary px-8 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
             Open Vendor Dashboard
           </Link>
         </div>

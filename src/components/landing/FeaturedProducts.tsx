@@ -1,7 +1,9 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { toast } from "sonner";
 
 const products = [
   { id: "p1", name: "Midnight Radiance Oil", price: 85 },
@@ -13,6 +15,7 @@ const products = [
 const FeaturedProducts = () => {
   const { ref, isVisible } = useScrollReveal();
   const { addItem } = useCart();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   return (
     <section id="products" ref={ref} className="py-24">
@@ -21,19 +24,41 @@ const FeaturedProducts = () => {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {products.map((p) => (
             <div key={p.name} className="group overflow-hidden rounded-2xl border border-border bg-card transition-transform hover:scale-[1.02]">
-              <Link to={`/product/${p.id}`}>
-                <div className="aspect-square bg-surface">
+              <Link to={`/home/product/${p.id}`}>
+                <div className="relative aspect-square bg-surface">
                   <img src="/placeholder.svg" alt={p.name} className="h-full w-full object-cover opacity-30" />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInWishlist(p.id)) {
+                        removeFromWishlist(p.id);
+                      } else {
+                        addToWishlist({
+                          id: p.id,
+                          name: p.name,
+                          price: p.price,
+                          type: "product",
+                          image: "/placeholder.svg"
+                        });
+                      }
+                    }}
+                    className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-colors hover:bg-black/60"
+                  >
+                    <Heart className={`h-4 w-4 ${isInWishlist(p.id) ? "fill-raffine-pink text-raffine-pink" : "text-white"}`} />
+                  </button>
                 </div>
               </Link>
               <div className="p-5">
-                <Link to={`/product/${p.id}`}>
+                <Link to={`/home/product/${p.id}`}>
                   <h3 className="text-sm font-semibold text-card-foreground hover:text-primary transition-colors">{p.name}</h3>
                 </Link>
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-lg font-bold text-primary">₹{p.price}</span>
                   <button
-                    onClick={() => addItem({ id: p.id, name: p.name, price: p.price, type: "product" })}
+                    onClick={() => {
+                      addItem({ id: p.id, name: p.name, price: p.price, type: "product" });
+                      toast.success(`${p.name} added to your bag`);
+                    }}
                     className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
                   >
                     <ShoppingBag className="h-4 w-4" />
@@ -44,7 +69,7 @@ const FeaturedProducts = () => {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link to="/services" className="text-sm font-semibold text-primary transition-colors hover:text-primary/80">
+          <Link to="/home/shop" className="text-sm font-semibold text-primary transition-colors hover:text-primary/80">
             View All Products →
           </Link>
         </div>

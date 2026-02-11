@@ -1,6 +1,8 @@
-import { Search, Heart, User, ShoppingBag, X, Menu } from "lucide-react";
+import { Search, Heart, User, ShoppingBag, X, Menu, LogOut } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { useState, useEffect } from "react";
 
 const navLinks = [
@@ -14,6 +16,8 @@ const navLinks = [
 
 const Navbar = () => {
     const { totalItems } = useCart();
+    const { logout } = useAuth();
+    const { wishlistCount } = useWishlist();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +38,7 @@ const Navbar = () => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+            navigate(`/home/search?q=${encodeURIComponent(searchQuery.trim())}`);
             setIsSearchOpen(false);
             setSearchQuery("");
         }
@@ -76,10 +80,15 @@ const Navbar = () => {
                     >
                         <Search className="size-[22px] stroke-[1.5px]" />
                     </button>
-                    <Link to="/home/favorites" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Favorites">
+                    <Link to="/home/wishlist" className="relative hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Wishlist">
                         <Heart className="size-[22px] stroke-[1.5px]" />
+                        {wishlistCount > 0 && (
+                            <span className="absolute top-1.5 right-1.5 flex items-center justify-center size-4 bg-raffine-gold text-raffine-burgundy rounded-full text-[9px] font-black">
+                                {wishlistCount}
+                            </span>
+                        )}
                     </Link>
-                    <Link to="/cart" className="relative flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Cart">
+                    <Link to="/home/cart" className="relative flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Cart">
                         <ShoppingBag className="size-[22px] stroke-[1.5px]" />
                         {totalItems > 0 && (
                             <span className="absolute top-1.5 right-1.5 flex items-center justify-center size-4 bg-raffine-pink text-white rounded-full text-[9px] font-black">
@@ -90,6 +99,13 @@ const Navbar = () => {
                     <Link to="/home/dashboard" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Profile">
                         <User className="size-[22px] stroke-[1.5px]" />
                     </Link>
+                    <button
+                        onClick={() => { logout(); navigate("/login"); }}
+                        className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors text-raffine-pink"
+                        aria-label="Logout"
+                    >
+                        <LogOut className="size-[22px] stroke-[1.5px]" />
+                    </button>
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="lg:hidden flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors ml-1"
@@ -143,8 +159,9 @@ const Navbar = () => {
                             </Link>
                         ))}
                         <div className="pt-8 border-t border-white/5 flex gap-8">
-                            <Link to="/home/cart" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><Heart /></Link>
+                            <Link to="/home/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><Heart /></Link>
                             <Link to="/home/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><User /></Link>
+                            <button onClick={() => { logout(); navigate("/login"); setIsMobileMenuOpen(false); }} className="text-raffine-pink"><LogOut /></button>
                         </div>
                     </div>
                 </div>

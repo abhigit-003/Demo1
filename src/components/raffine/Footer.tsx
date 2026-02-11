@@ -2,22 +2,22 @@ import { Link } from "react-router-dom";
 
 const footerLinks = {
     Services: [
-        { label: "Spa & Massage", to: "/services?category=spa" },
-        { label: "Hair Styling", to: "/services?category=hair" },
-        { label: "Fitness Training", to: "/services?category=fitness" },
-        { label: "Wellness Programs", to: "/services?category=wellness" },
+        { label: "Spa & Massage", to: "/home/spa" },
+        { label: "Hair Styling", to: "/home/hair" },
+        { label: "Fitness Training", to: "/home/fitness" },
+        { label: "Wellness Programs", to: "/home/wellness" },
     ],
     Company: [
-        { label: "About Us", to: "/about" },
-        { label: "Careers", to: "/careers" },
-        { label: "Journal", to: "/journal" },
-        { label: "Sustainability", to: "/sustainability" },
+        { label: "About Us", to: "/home" },
+        { label: "Careers", to: "/home" },
+        { label: "Journal", to: "/home/editorial" },
+        { label: "Sustainability", to: "/home" },
     ],
     Support: [
-        { label: "FAQ", to: "/faq" },
-        { label: "Contact Us", to: "/contact" },
-        { label: "Shipping & Returns", to: "/shipping" },
-        { label: "Privacy Policy", to: "/privacy" },
+        { label: "FAQ", to: "/home" },
+        { label: "Contact Us", to: "/home" },
+        { label: "Shipping & Returns", to: "/home/cart" },
+        { label: "Privacy Policy", to: "/home" },
     ],
 };
 

@@ -1,13 +1,16 @@
 import { useParams, Link } from "react-router-dom";
-import { Star, ChevronLeft, Minus, Plus, ShoppingBag } from "lucide-react";
+import { Star, ChevronLeft, Minus, Plus, ShoppingBag, Heart } from "lucide-react";
 import { useState } from "react";
 import { products } from "@/data/mockData";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { toast } from "sonner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const { addItem } = useCart();
+  const { items, addItem } = useCart();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const product = products.find((p) => p.id === id);
   const [quantity, setQuantity] = useState(1);
   const [selectedShade, setSelectedShade] = useState(0);
@@ -27,6 +30,7 @@ const ProductDetail = () => {
     for (let i = 0; i < quantity; i++) {
       addItem({ id: product.id, name: product.name, price: product.price, type: "product" });
     }
+    toast.success(`${quantity} ${product.name} added to your bag`);
   };
 
   return (
@@ -52,7 +56,28 @@ const ProductDetail = () => {
 
         {/* Info */}
         <div>
-          <h1 className="text-3xl font-bold text-white uppercase tracking-wider">{product.name}</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-white uppercase tracking-wider">{product.name}</h1>
+            <button
+              onClick={() => {
+                if (isInWishlist(product.id)) {
+                  removeFromWishlist(product.id);
+                } else {
+                  addToWishlist({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    type: "product",
+                    image: "/placeholder.svg"
+                  });
+                }
+              }}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-white hover:bg-white/5 transition-colors"
+              aria-label="Toggle Wishlist"
+            >
+              <Heart className={`h-6 w-6 ${isInWishlist(product.id) ? "fill-raffine-pink text-raffine-pink border-none" : ""}`} />
+            </button>
+          </div>
           <div className="mt-3 flex items-center gap-2">
             <div className="flex">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="h-4 w-4 fill-raffine-pink text-raffine-pink" />)}</div>
             <span className="text-sm text-gray-400">{product.rating} ({product.reviews} reviews)</span>

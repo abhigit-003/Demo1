@@ -1,6 +1,9 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Star } from "lucide-react";
+import { Star, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useWishlist } from "@/context/WishlistContext";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 const services = [
   { id: "s1", name: "Signature Deep Tissue Massage", rating: 4.9, reviews: 128, price: "₹145" },
@@ -10,6 +13,8 @@ const services = [
 
 const FeaturedServices = () => {
   const { ref, isVisible } = useScrollReveal();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { addItem } = useCart();
 
   return (
     <section id="services" ref={ref} className="py-24">
@@ -24,8 +29,27 @@ const FeaturedServices = () => {
               className="group overflow-hidden rounded-2xl border border-border bg-card transition-transform hover:scale-[1.02]"
             >
               <Link to={`/home/service/${svc.id}`}>
-                <div className="aspect-[16/10] bg-surface">
+                <div className="relative aspect-[16/10] bg-surface">
                   <img src="/placeholder.svg" alt={svc.name} className="h-full w-full object-cover opacity-30" />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInWishlist(svc.id)) {
+                        removeFromWishlist(svc.id);
+                      } else {
+                        addToWishlist({
+                          id: svc.id,
+                          name: svc.name,
+                          price: parseFloat(svc.price.replace("₹", "")),
+                          type: "service",
+                          image: "/placeholder.svg"
+                        });
+                      }
+                    }}
+                    className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-colors hover:bg-black/60"
+                  >
+                    <Heart className={`h-4 w-4 ${isInWishlist(svc.id) ? "fill-raffine-pink text-raffine-pink" : "text-white"}`} />
+                  </button>
                 </div>
               </Link>
               <div className="p-6">
@@ -39,16 +63,23 @@ const FeaturedServices = () => {
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-lg font-bold text-foreground">{svc.price}</span>
-                  <Link to={`/service/${svc.id}`} className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
+                  <button
+                    onClick={() => {
+                      const priceNum = parseFloat(svc.price.replace("₹", ""));
+                      addItem({ id: svc.id, name: svc.name, price: priceNum, type: "service" });
+                      toast.success(`${svc.name} added to your bag`);
+                    }}
+                    className="rounded-lg bg-raffine-pink px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 shadow-lg shadow-raffine-pink/10"
+                  >
                     Book Now
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link to="/home/spa" className="inline-flex h-11 items-center rounded-lg border border-border bg-secondary px-6 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]">
+          <Link to="/home/all" className="inline-flex h-11 items-center rounded-lg border border-border bg-secondary px-6 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]">
             View All Services
           </Link>
         </div>

@@ -2,6 +2,7 @@ import { useLocation, Link } from "react-router-dom";
 import { products, services, items } from "@/data/mockData";
 import { Star, ShoppingBag, Clock, MapPin, Package, Sparkles, Tag, Search } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 type SearchResultType = "product" | "service" | "item";
 
@@ -33,9 +34,9 @@ const SearchResults = () => {
         const isItem = item.type === "item";
 
         const getLink = () => {
-            if (isProduct) return `/product/${item.id}`;
-            if (isService) return `/service/${item.id}`;
-            return `/item/${item.id}`;
+            if (isProduct) return `/home/product/${item.id}`;
+            if (isService) return `/home/service/${item.id}`;
+            return `/home/item/${item.id}`;
         };
 
         return (
@@ -50,6 +51,7 @@ const SearchResults = () => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 addItem({ id: item.id, name: item.name, price: item.price, type: item.type });
+                                toast.success(`${item.name} added to your bag`);
                             }}
                             className="absolute bottom-4 right-4 bg-raffine-primary text-white p-3 rounded-full shadow-xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10"
                         >
@@ -119,7 +121,7 @@ const SearchResults = () => {
                         We couldn't find any results matching your search. Try different keywords or browse our categories.
                     </p>
                     <Link
-                        to="/"
+                        to="/home"
                         className="mt-8 inline-block bg-raffine-pink text-white px-8 py-4 rounded-lg text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-all transform hover:-translate-y-1 shadow-lg"
                     >
                         Explore Collections

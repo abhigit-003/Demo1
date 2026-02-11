@@ -1,6 +1,7 @@
-import { ArrowRight, ShoppingCart } from "lucide-react";
+import { ArrowRight, ShoppingCart, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { toast } from "sonner";
 
 const products = [
@@ -41,6 +42,7 @@ const products = [
 
 const StaffPicks = () => {
     const { addItem } = useCart();
+    const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
     const handleAddToCart = (product: typeof products[0]) => {
         addItem({
@@ -92,6 +94,26 @@ const StaffPicks = () => {
                             >
                                 <ShoppingCart className="size-[18px]" />
                             </button>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (isInWishlist(product.id)) {
+                                        removeFromWishlist(product.id);
+                                    } else {
+                                        addToWishlist({
+                                            id: product.id,
+                                            name: product.name,
+                                            price: product.price,
+                                            type: "product",
+                                            image: product.image
+                                        });
+                                    }
+                                }}
+                                className="absolute top-4 right-4 size-10 bg-black/40 backdrop-blur-md text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all -translate-y-2 group-hover:translate-y-0 shadow-lg hover:bg-raffine-pink"
+                            >
+                                <Heart className={`size-[18px] ${isInWishlist(product.id) ? "fill-white" : ""}`} />
+                            </button>
                         </div>
                         <div className="flex flex-col flex-1">
                             <Link to={`/home/product/${product.id}`} className="block group/link">
@@ -108,7 +130,7 @@ const StaffPicks = () => {
                 ))}
             </div>
             <div className="md:hidden mt-8 flex justify-center">
-                <Link to="/shop" className="px-6 py-3 border border-white/20 text-white rounded-lg text-sm font-semibold w-full text-center">
+                <Link to="/home/shop" className="px-6 py-3 border border-white/20 text-white rounded-lg text-sm font-semibold w-full text-center">
                     View All Products
                 </Link>
             </div>

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
-import { FavoritesProvider } from "./context/FavoritesContext";
+import { WishlistProvider } from "./context/WishlistContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import MainLayout from "./components/MainLayout";
 import RaffineLanding from "./pages/RaffineLanding";
@@ -25,6 +25,8 @@ import EditorialPage from "./pages/EditorialPage";
 import AddService from "./pages/admin/AddService";
 import ManageProducts from "./pages/admin/ManageProducts";
 import Analytics from "./pages/admin/Analytics";
+import Wishlist from "./pages/Wishlist";
+import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
 import { Navigate } from "react-router-dom";
 
@@ -35,7 +37,7 @@ const App = () => (
     <TooltipProvider>
       <AuthProvider>
         <CartProvider>
-          <FavoritesProvider>
+          <WishlistProvider>
             <Toaster />
             <Sonner />
             <BrowserRouter>
@@ -55,11 +57,14 @@ const App = () => (
                     <Route path="hair" element={<Services category="hair" />} />
                     <Route path="fitness" element={<Services category="fitness" />} />
                     <Route path="wellness" element={<Services category="wellness" />} />
+                    <Route path="all" element={<Services />} />
                     <Route path="shop" element={<Shop />} />
                     <Route path="editorial" element={<EditorialPage />} />
+                    <Route path="checkout" element={<Checkout />} />
 
                     {/* Other Protected Pages */}
                     <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="wishlist" element={<Wishlist />} />
                     <Route path="cart" element={<Cart />} />
                     <Route path="search" element={<SearchResults />} />
                     <Route path="service/:id" element={<ServiceDetail />} />
@@ -75,7 +80,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
-          </FavoritesProvider>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </TooltipProvider>

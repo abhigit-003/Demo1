@@ -1,8 +1,10 @@
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Star, Heart, SlidersHorizontal } from "lucide-react";
 import { services } from "@/data/mockData";
-import { useFavorites } from "@/context/FavoritesContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { useCart } from "@/context/CartContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { toast } from "sonner";
 
 const categoryLabels: Record<string, string> = {
   spa: "Spa & Massage",
@@ -20,16 +22,18 @@ const Services = ({ category: propCategory }: ServicesProps) => {
   const urlCategory = searchParams.get("category");
   const category = propCategory || urlCategory;
 
-  const { toggleFavorite, isFavorite } = useFavorites();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { addItem } = useCart();
   const { ref, isVisible } = useScrollReveal(0.05);
+  const navigate = useNavigate();
 
   const filtered = category
     ? services.filter((s) => s.category === category)
     : services;
 
   const setCategory = (cat: string | null) => {
-    if (cat) setSearchParams({ category: cat });
-    else setSearchParams({});
+    if (cat) navigate(`/home/${cat}`);
+    else navigate('/home/all');
   };
 
   return (
@@ -70,10 +74,23 @@ const Services = ({ category: propCategory }: ServicesProps) => {
                 <div className="relative aspect-[16/10] bg-raffine-burgundy/50">
                   <img src="/placeholder.svg" alt={svc.name} className="h-full w-full object-cover opacity-30" />
                   <button
-                    onClick={(e) => { e.preventDefault(); toggleFavorite(svc.id); }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInWishlist(svc.id)) {
+                        removeFromWishlist(svc.id);
+                      } else {
+                        addToWishlist({
+                          id: svc.id,
+                          name: svc.name,
+                          price: svc.price,
+                          type: "service",
+                          image: "/placeholder.svg"
+                        });
+                      }
+                    }}
                     className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-md transition-colors hover:bg-white/20"
                   >
-                    <Heart className={`h-4.5 w-4.5 ${isFavorite(svc.id) ? "fill-raffine-pink text-raffine-pink" : "text-white"}`} />
+                    <Heart className={`h-4.5 w-4.5 ${isInWishlist(svc.id) ? "fill-raffine-pink text-raffine-pink" : "text-white"}`} />
                   </button>
                 </div>
               </Link>
@@ -89,9 +106,15 @@ const Services = ({ category: propCategory }: ServicesProps) => {
                 </div>
                 <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
                   <span className="text-xl font-black text-raffine-gold">₹{svc.price}</span>
-                  <Link to={`/services/${svc.id}`} className="rounded-lg bg-raffine-pink px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90">
+                  <button
+                    onClick={() => {
+                      addItem({ id: svc.id, name: svc.name, price: svc.price, type: "service" });
+                      toast.success(`${svc.name} added to your bag`);
+                    }}
+                    className="rounded-lg bg-raffine-pink px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90 shadow-lg shadow-raffine-pink/20"
+                  >
                     Book Now
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

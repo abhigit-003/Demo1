@@ -1,11 +1,14 @@
 import { useParams, Link } from "react-router-dom";
-import { Star, MapPin, Clock, ChevronLeft } from "lucide-react";
+import { Star, MapPin, Clock, ChevronLeft, Heart } from "lucide-react";
 import { services } from "@/data/mockData";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { toast } from "sonner";
 
 const ServiceDetail = () => {
   const { id } = useParams();
   const { addItem } = useCart();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const svc = services.find((s) => s.id === id);
 
   if (!svc) {
@@ -42,7 +45,28 @@ const ServiceDetail = () => {
               </div>
             </div>
 
-            <h1 className="mt-8 text-3xl font-bold text-white">{svc.name}</h1>
+            <div className="flex items-center justify-between mt-8">
+              <h1 className="text-3xl font-bold text-white">{svc.name}</h1>
+              <button
+                onClick={() => {
+                  if (isInWishlist(svc.id)) {
+                    removeFromWishlist(svc.id);
+                  } else {
+                    addToWishlist({
+                      id: svc.id,
+                      name: svc.name,
+                      price: svc.price,
+                      type: "service",
+                      image: "/placeholder.svg"
+                    });
+                  }
+                }}
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-white hover:bg-white/5 transition-colors"
+                aria-label="Toggle Wishlist"
+              >
+                <Heart className={`h-6 w-6 ${isInWishlist(svc.id) ? "fill-raffine-pink text-raffine-pink border-none" : ""}`} />
+              </button>
+            </div>
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {svc.location}</span>
               <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {svc.duration}</span>
@@ -91,8 +115,11 @@ const ServiceDetail = () => {
               <p className="text-3xl font-bold text-foreground">₹{svc.price}</p>
               <p className="text-sm text-muted-foreground">{svc.duration} session</p>
               <button
-                onClick={() => addItem({ id: svc.id, name: svc.name, price: svc.price, type: "service" })}
-                className="mt-6 w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
+                onClick={() => {
+                  addItem({ id: svc.id, name: svc.name, price: svc.price, type: "service" });
+                  toast.success(`${svc.name} added to your bag`);
+                }}
+                className="mt-6 w-full rounded-lg bg-raffine-pink py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 shadow-lg shadow-raffine-pink/20 uppercase tracking-widest"
               >
                 Book Now
               </button>
