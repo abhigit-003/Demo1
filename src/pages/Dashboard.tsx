@@ -1,6 +1,6 @@
 import { LayoutDashboard, Calendar, DollarSign, Users, ShoppingBag, TrendingUp, Star, Clock } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const stats = [
   { label: "Total Revenue", value: "₹12,430", icon: DollarSign, change: "+12%" },
