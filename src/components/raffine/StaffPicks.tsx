@@ -64,7 +64,7 @@ const StaffPicks = () => {
                     </h3>
                 </div>
                 <Link
-                    to="/shop"
+                    to="/home/shop"
                     className="hidden md:flex items-center gap-1 text-sm text-white/70 hover:text-raffine-primary transition-colors"
                 >
                     Shop All <ArrowRight className="size-[18px]" />
@@ -94,7 +94,7 @@ const StaffPicks = () => {
                             </button>
                         </div>
                         <div className="flex flex-col flex-1">
-                            <Link to={`/product/${product.id}`} className="block group/link">
+                            <Link to={`/home/product/${product.id}`} className="block group/link">
                                 <h5 className="text-raffine-gold text-xs font-bold uppercase tracking-wider mb-1">
                                     {product.brand}
                                 </h5>
