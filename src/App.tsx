@@ -23,6 +23,9 @@ import Terms from "./pages/Terms";
 import SearchResults from "./pages/SearchResults";
 import Shop from "./pages/Shop";
 import EditorialPage from "./pages/EditorialPage";
+import AddService from "./pages/admin/AddService";
+import ManageProducts from "./pages/admin/ManageProducts";
+import Analytics from "./pages/admin/Analytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -59,6 +62,11 @@ const App = () => (
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/editorial" element={<EditorialPage />} />
                     <Route path="/service/:id" element={<ServiceDetail />} />
+
+                    {/* Admin/Quick Action Routes */}
+                    <Route path="/admin/add-service" element={<AddService />} />
+                    <Route path="/admin/products" element={<ManageProducts />} />
+                    <Route path="/admin/analytics" element={<Analytics />} />
                   </Route>
                 </Route>
 
