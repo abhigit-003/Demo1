@@ -29,40 +29,40 @@ const Dashboard = () => {
   if (!user) return <Navigate to="/login" replace />;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="pb-20">
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-            <p className="mt-1 text-muted-foreground">Welcome back, {user.name}</p>
+            <h1 className="text-3xl font-bold text-white uppercase tracking-widest">Dashboard</h1>
+            <p className="mt-1 text-gray-400">Welcome back, {user.name}</p>
           </div>
         </div>
 
         {/* Stats */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-border bg-card p-6">
+            <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{s.label}</span>
-                <s.icon className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm text-gray-400">{s.label}</span>
+                <s.icon className="h-5 w-5 text-gray-400" />
               </div>
-              <p className="mt-2 text-2xl font-bold text-card-foreground">{s.value}</p>
-              <p className="mt-1 text-xs text-primary">{s.change} from last month</p>
+              <p className="mt-2 text-2xl font-bold text-white">{s.value}</p>
+              <p className="mt-1 text-xs text-raffine-gold">{s.change} from last month</p>
             </div>
           ))}
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 rounded-2xl bg-gradient-to-r from-primary/20 to-primary/5 border border-primary/20 p-8">
-          <h2 className="text-xl font-bold text-foreground">Quick Actions</h2>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link to="/services" className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
+        <div className="mt-8 rounded-2xl bg-gradient-to-r from-raffine-pink/20 to-transparent border border-raffine-pink/20 p-8">
+          <h2 className="text-xl font-bold text-white uppercase tracking-widest">Quick Actions</h2>
+          <div className="mt-4 flex flex-wrap gap-4">
+            <Link to="/services" className="rounded-lg bg-raffine-pink px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90">
               Add New Service
             </Link>
-            <button className="rounded-lg border border-border bg-secondary px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]">
+            <button className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
               Manage Products
             </button>
-            <button className="rounded-lg border border-border bg-secondary px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]">
+            <button className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
               View Analytics
             </button>
           </div>

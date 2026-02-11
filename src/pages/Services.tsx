@@ -41,7 +41,7 @@ const Services = () => {
           <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
           <button
             onClick={() => setCategory(null)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!category ? "bg-primary text-primary-foreground" : "border border-border text-muted-foreground hover:text-foreground"}`}
+            className={`rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${!category ? "bg-raffine-pink text-white shadow-lg shadow-raffine-pink/20" : "border border-white/10 text-gray-500 hover:text-white"}`}
           >
             All
           </button>
@@ -49,7 +49,7 @@ const Services = () => {
             <button
               key={key}
               onClick={() => setCategory(key)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${category === key ? "bg-primary text-primary-foreground" : "border border-border text-muted-foreground hover:text-foreground"}`}
+              className={`rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${category === key ? "bg-raffine-pink text-white shadow-lg shadow-raffine-pink/20" : "border border-white/10 text-gray-500 hover:text-white"}`}
             >
               {label}
             </button>
@@ -59,31 +59,31 @@ const Services = () => {
         {/* Grid */}
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((svc) => (
-            <div key={svc.id} className="group overflow-hidden rounded-2xl border border-border bg-card transition-transform hover:scale-[1.02]">
+            <div key={svc.id} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all hover:bg-white/10 hover:translate-y-[-4px]">
               <Link to={`/services/${svc.id}`} className="block">
-                <div className="relative aspect-[16/10] bg-surface">
+                <div className="relative aspect-[16/10] bg-raffine-burgundy/50">
                   <img src="/placeholder.svg" alt={svc.name} className="h-full w-full object-cover opacity-30" />
                   <button
                     onClick={(e) => { e.preventDefault(); toggleFavorite(svc.id); }}
-                    className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-background/60 backdrop-blur-sm transition-colors hover:bg-background/80"
+                    className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-md transition-colors hover:bg-white/20"
                   >
-                    <Heart className={`h-4 w-4 ${isFavorite(svc.id) ? "fill-primary text-primary" : "text-foreground"}`} />
+                    <Heart className={`h-4.5 w-4.5 ${isFavorite(svc.id) ? "fill-raffine-pink text-raffine-pink" : "text-white"}`} />
                   </button>
                 </div>
               </Link>
               <div className="p-6">
                 <Link to={`/services/${svc.id}`}>
-                  <h3 className="text-lg font-semibold text-card-foreground hover:text-primary transition-colors">{svc.name}</h3>
+                  <h3 className="text-lg font-bold text-white group-hover:text-raffine-gold transition-colors">{svc.name}</h3>
                 </Link>
-                <p className="mt-1 text-xs text-muted-foreground">{svc.location} · {svc.duration}</p>
-                <div className="mt-2 flex items-center gap-2">
-                  <Star className="h-4 w-4 fill-primary text-primary" />
-                  <span className="text-sm font-medium text-foreground">{svc.rating}</span>
-                  <span className="text-sm text-muted-foreground">({svc.reviews})</span>
+                <p className="mt-1 text-xs text-gray-400 uppercase tracking-widest">{svc.location} · {svc.duration}</p>
+                <div className="mt-3 flex items-center gap-2">
+                  <Star className="h-4 w-4 fill-raffine-gold text-raffine-gold" />
+                  <span className="text-sm font-bold text-white">{svc.rating}</span>
+                  <span className="text-sm text-gray-500">({svc.reviews} reviews)</span>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-lg font-bold text-foreground">₹{svc.price}</span>
-                  <Link to={`/services/${svc.id}`} className="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
+                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+                  <span className="text-xl font-black text-raffine-gold">₹{svc.price}</span>
+                  <Link to={`/services/${svc.id}`} className="rounded-lg bg-raffine-pink px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90">
                     Book Now
                   </Link>
                 </div>
