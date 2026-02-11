@@ -15,36 +15,31 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-6">
+    <div className="flex py-20 items-center justify-center px-6">
       <div className="w-full max-w-md">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <span className="text-lg font-bold text-primary-foreground">R</span>
-            </div>
-          </Link>
-          <h1 className="mt-6 text-2xl font-bold text-foreground">Create your account</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Join the Raffine experience</p>
+          <h1 className="text-3xl font-bold text-white uppercase tracking-widest leading-tight">Create your account</h1>
+          <p className="mt-3 text-sm text-gray-400">Join the Raffine experience</p>
         </div>
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-10 space-y-6">
           <div>
-            <label className="text-sm font-medium text-foreground">Full Name</label>
-            <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary" placeholder="Jane Doe" />
+            <label className="text-xs font-bold uppercase tracking-widest text-raffine-gold">Full Name</label>
+            <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="mt-2 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold transition-colors" placeholder="Jane Doe" />
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground">Email</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary" placeholder="you@example.com" />
+            <label className="text-xs font-bold uppercase tracking-widest text-raffine-gold">Email</label>
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-2 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold transition-colors" placeholder="you@example.com" />
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground">Password</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary" placeholder="••••••••" />
+            <label className="text-xs font-bold uppercase tracking-widest text-raffine-gold">Password</label>
+            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-2 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold transition-colors" placeholder="••••••••" />
           </div>
-          <button type="submit" className="w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
+          <button type="submit" className="w-full rounded-lg bg-raffine-pink py-4 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90 active:scale-[0.98]">
             Create Account
           </button>
         </form>
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          Already have an account? <Link to="/login" className="text-primary hover:text-primary/80 font-medium">Sign in</Link>
+        <p className="mt-8 text-center text-sm text-gray-400">
+          Already have an account? <Link to="/login" className="text-raffine-gold hover:text-white font-bold transition-colors">Sign in</Link>
         </p>
       </div>
     </div>
