@@ -15,7 +15,7 @@ const Wishlist = () => {
                 <h1 className="text-2xl font-bold text-white uppercase tracking-widest">Your wishlist is empty</h1>
                 <p className="mt-2 text-gray-400">Save your favorite beauty rituals and products here</p>
                 <div className="mt-8">
-                    <Link to="/home/spa" className="rounded-lg bg-raffine-pink px-8 py-3.5 text-sm font-bold text-white uppercase tracking-widest transition-transform hover:scale-[1.05] shadow-lg shadow-raffine-pink/20">
+                    <Link to="/spa" className="rounded-lg bg-raffine-pink px-8 py-3.5 text-sm font-bold text-white uppercase tracking-widest transition-transform hover:scale-[1.05] shadow-lg shadow-raffine-pink/20">
                         Explore Portfolio
                     </Link>
                 </div>

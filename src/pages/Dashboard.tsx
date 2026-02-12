@@ -56,13 +56,13 @@ const Dashboard = () => {
         <div className="mt-8 rounded-2xl bg-gradient-to-r from-raffine-pink/20 to-transparent border border-raffine-pink/20 p-8">
           <h2 className="text-xl font-bold text-white uppercase tracking-widest">Quick Actions</h2>
           <div className="mt-4 flex flex-wrap gap-4">
-            <Link to="/home/admin/add-service" className="rounded-lg bg-raffine-pink px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90">
+            <Link to="/admin/add-service" className="rounded-lg bg-raffine-pink px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90">
               Add New Service
             </Link>
-            <Link to="/home/admin/products" className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
+            <Link to="/admin/products" className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
               Manage Products
             </Link>
-            <Link to="/home/admin/analytics" className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
+            <Link to="/admin/analytics" className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white/10">
               View Analytics
             </Link>
           </div>

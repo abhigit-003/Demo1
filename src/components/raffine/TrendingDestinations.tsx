@@ -6,7 +6,7 @@ const destinations = [
         name: "Lume Wellness Spa",
         location: "Downtown District",
         rating: 4.9,
-        route: "/home/spa",
+        route: "/spa",
         image:
             "https://lh3.googleusercontent.com/aida-public/AB6AXuDUhGyfxQOTVQeWWyc-ieD7TiEw31ujudXKr9Lj8iCGteqcXMWaqQ9PC11CQ3kv4A2eZC69dxzBmoNkzi_3nC_i-X8J3Ke-dm18hIm94A-zBc0pqenCUKrGR1Ak_oD7XDb1vRmbW_cMl7d7brcaAEW6NR4kUFrUsTAPwJZLeL2uUBZ04AA6NvBKBHoe1h04Cgbltffc3tuOxL4YDWSeH0w0kATYF1_gbN97O2zT5dNnAbihjQyx2-Jr4GjZNvkjKl37mBxWlDAXlfg",
     },
@@ -14,7 +14,7 @@ const destinations = [
         name: "Atelier Hair",
         location: "Westside Avenue",
         rating: 4.8,
-        route: "/home/hair",
+        route: "/hair",
         image:
             "https://lh3.googleusercontent.com/aida-public/AB6AXuBGUMF584r13priPAZKh7VuSRhL5Yg_u6OKAFC8QpymfmjN-u9Q6zyusDVXEdY5FbFO5WDhYh8rstYtGVi5NVNsilwIvD8PdfWBfkdmPOtl-lFUTQJcgyMvSJUlcdoAs1_VMfhUvvDg5LvD8ozvTWQD_1JTbuK7NNewFzjRhkhjRCmLrN2LOduPTzX9ZWs4G-v0wAbxLkVxKcrZRXEDO0LuAvOPPn4nV49NSrp4NzkkPb7ApWpB2SLw2-3NIXgF1lU_n_BxQC_WjNw",
     },
@@ -22,7 +22,7 @@ const destinations = [
         name: "Glow Studios",
         location: "Uptown Plaza",
         rating: 4.9,
-        route: "/home/wellness",
+        route: "/wellness",
         image:
             "https://lh3.googleusercontent.com/aida-public/AB6AXuBLJewU8GiMXFpcfmu_DlS1ZosGLjk_oDptFsDLYBo3ItisG7g_7CEqFfUqsg9iLHNp8DSsyR1KRtYv4XjDFYo-ADN3inkTBwBX92l-SL9VWdknaDADQe-PbBs7VONdl9fP3Pv1E5kCc8XXaT5YTOTS7KX3gApiKe_kCTTkgiQRcv6JEu2c6BPOOjsrfWvPIkwLh4xCNOz_MhX80NDaa7qjhxMB261lA-rEVHV8-NGaoAWWh2LfdpE4prqZKsoOJTiPhRTeawSmkyI",
     },
@@ -30,7 +30,7 @@ const destinations = [
         name: "The Nail Bar",
         location: "SoHo District",
         rating: 5.0,
-        route: "/home/spa",
+        route: "/spa",
         image:
             "https://lh3.googleusercontent.com/aida-public/AB6AXuDBLBIDNiPFE2zigIoeq3ltsN5b0lpotwoyRYvATOeDDH_xw9Qze5SzkP7tFmUB00SGgnr6ZXo2OxoZh7P81fp1TrPSNlg0khg0pBPv3JxHMWDIW-RjxTctRqF9kfXUrZ1kDPQiz4ihKqi5EWSKGLnjaJ4i7taNpvEKhbgo1cAqsrNgmNJSIqE8h5HNr9v4fiOZ0fSJMI4lV-eNZ5RCb3ZjC6uLTtMY1qdmCldmLO_RgCScochwcWy0CNDrv4diob1jqYLSJIb10b0",
     },
@@ -51,7 +51,7 @@ const TrendingDestinations = () => {
                     </h3>
                 </div>
                 <Link
-                    to="/home/all"
+                    to="/all"
                     className="hidden md:flex items-center gap-1 text-sm text-white/70 hover:text-raffine-primary transition-colors"
                 >
                     View All <ArrowRight className="size-[18px]" />

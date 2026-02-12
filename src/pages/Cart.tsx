@@ -8,7 +8,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
-    navigate("/home/checkout");
+    navigate("/checkout");
   };
 
   if (items.length === 0) {
@@ -26,10 +26,10 @@ const Cart = () => {
           Discover our signature treatments and products.
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4">
-          <Link to="/home/spa" className="rounded-lg bg-raffine-pink px-10 py-4 text-[11px] font-bold text-white uppercase tracking-[0.2em] transition-all hover:scale-[1.05] shadow-lg shadow-raffine-pink/20">
+          <Link to="/spa" className="rounded-lg bg-raffine-pink px-10 py-4 text-[11px] font-bold text-white uppercase tracking-[0.2em] transition-all hover:scale-[1.05] shadow-lg shadow-raffine-pink/20">
             Browse Services
           </Link>
-          <Link to="/home/shop" className="rounded-lg border border-white/10 bg-white/5 px-10 py-4 text-[11px] font-bold text-white uppercase tracking-[0.2em] transition-all hover:bg-white/10">
+          <Link to="/shop" className="rounded-lg border border-white/10 bg-white/5 px-10 py-4 text-[11px] font-bold text-white uppercase tracking-[0.2em] transition-all hover:bg-white/10">
             Shop Collection
           </Link>
         </div>
@@ -146,7 +146,7 @@ const Cart = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </button>
 
-            <Link to="/home/shop" className="mt-6 flex items-center justify-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-white transition-colors">
+            <Link to="/shop" className="mt-6 flex items-center justify-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-white transition-colors">
               Continue Exploration
             </Link>
           </div>

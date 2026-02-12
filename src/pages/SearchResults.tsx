@@ -34,9 +34,9 @@ const SearchResults = () => {
         const isItem = item.type === "item";
 
         const getLink = () => {
-            if (isProduct) return `/home/product/${item.id}`;
-            if (isService) return `/home/service/${item.id}`;
-            return `/home/item/${item.id}`;
+            if (isProduct) return `/product/${item.id}`;
+            if (isService) return `/service/${item.id}`;
+            return `/item/${item.id}`;
         };
 
         return (
@@ -121,7 +121,7 @@ const SearchResults = () => {
                         We couldn't find any results matching your search. Try different keywords or browse our categories.
                     </p>
                     <Link
-                        to="/home"
+                        to="/"
                         className="mt-8 inline-block bg-raffine-pink text-white px-8 py-4 rounded-lg text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-all transform hover:-translate-y-1 shadow-lg"
                     >
                         Explore Collections

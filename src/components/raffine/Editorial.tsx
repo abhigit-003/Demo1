@@ -21,7 +21,7 @@ const Editorial = () => {
                         and restore.
                     </p>
                     <Link
-                        to="/home/editorial"
+                        to="/editorial"
                         className="inline-block bg-raffine-primary hover:bg-raffine-primary/90 text-white px-8 py-4 rounded-lg text-sm font-bold uppercase tracking-widest transition-all transform hover:-translate-y-1 shadow-lg shadow-raffine-primary/20"
                     >
                         Read the Journal

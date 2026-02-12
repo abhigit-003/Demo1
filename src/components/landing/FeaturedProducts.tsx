@@ -24,7 +24,7 @@ const FeaturedProducts = () => {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {products.map((p) => (
             <div key={p.name} className="group overflow-hidden rounded-2xl border border-border bg-card transition-transform hover:scale-[1.02]">
-              <Link to={`/home/product/${p.id}`}>
+              <Link to={`/product/${p.id}`}>
                 <div className="relative aspect-square bg-surface">
                   <img src="/placeholder.svg" alt={p.name} className="h-full w-full object-cover opacity-30" />
                   <button
@@ -49,7 +49,7 @@ const FeaturedProducts = () => {
                 </div>
               </Link>
               <div className="p-5">
-                <Link to={`/home/product/${p.id}`}>
+                <Link to={`/product/${p.id}`}>
                   <h3 className="text-sm font-semibold text-card-foreground hover:text-primary transition-colors">{p.name}</h3>
                 </Link>
                 <div className="mt-3 flex items-center justify-between">
@@ -69,7 +69,7 @@ const FeaturedProducts = () => {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link to="/home/shop" className="text-sm font-semibold text-primary transition-colors hover:text-primary/80">
+          <Link to="/shop" className="text-sm font-semibold text-primary transition-colors hover:text-primary/80">
             View All Products →
           </Link>
         </div>

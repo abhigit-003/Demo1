@@ -42,7 +42,22 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Navigate to="/login" replace />} />
+                {/* Public Layout */}
+                <Route element={<MainLayout />}>
+                  <Route path="/" element={<RaffineLanding />} />
+                  <Route path="/home" element={<Navigate to="/" replace />} />
+                  <Route path="/landing" element={<Index />} />
+                  <Route path="/spa" element={<Services category="spa" />} />
+                  <Route path="/hair" element={<Services category="hair" />} />
+                  <Route path="/fitness" element={<Services category="fitness" />} />
+                  <Route path="/wellness" element={<Services category="wellness" />} />
+                  <Route path="/all" element={<Services />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/editorial" element={<EditorialPage />} />
+                  <Route path="/search" element={<SearchResults />} />
+                  <Route path="/service/:id" element={<ServiceDetail />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                </Route>
 
                 {/* Public Auth Routes */}
                 <Route path="/login" element={<Login />} />
@@ -50,30 +65,16 @@ const App = () => (
 
                 {/* Protected Routes Hierarchy */}
                 <Route element={<ProtectedRoute />}>
-                  <Route path="/home" element={<MainLayout />}>
-                    <Route index element={<RaffineLanding />} />
-                    <Route path="landing" element={<Index />} />
-                    <Route path="spa" element={<Services category="spa" />} />
-                    <Route path="hair" element={<Services category="hair" />} />
-                    <Route path="fitness" element={<Services category="fitness" />} />
-                    <Route path="wellness" element={<Services category="wellness" />} />
-                    <Route path="all" element={<Services />} />
-                    <Route path="shop" element={<Shop />} />
-                    <Route path="editorial" element={<EditorialPage />} />
-                    <Route path="checkout" element={<Checkout />} />
+                  <Route element={<MainLayout />}>
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/cart" element={<Cart />} />
 
-                    {/* Other Protected Pages */}
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="wishlist" element={<Wishlist />} />
-                    <Route path="cart" element={<Cart />} />
-                    <Route path="search" element={<SearchResults />} />
-                    <Route path="service/:id" element={<ServiceDetail />} />
-                    <Route path="product/:id" element={<ProductDetail />} />
-
-                    {/* Admin Modules under home */}
-                    <Route path="admin/add-service" element={<AddService />} />
-                    <Route path="admin/products" element={<ManageProducts />} />
-                    <Route path="admin/analytics" element={<Analytics />} />
+                    {/* Admin Modules */}
+                    <Route path="/admin/add-service" element={<AddService />} />
+                    <Route path="/admin/products" element={<ManageProducts />} />
+                    <Route path="/admin/analytics" element={<Analytics />} />
                   </Route>
                 </Route>
 

@@ -27,7 +27,7 @@ const Hero = () => {
                         you.
                     </p>
                     <button
-                        onClick={() => navigate("/home/spa")}
+                        onClick={() => navigate("/spa")}
                         className="px-8 py-4 bg-raffine-primary hover:bg-raffine-primary/90 text-white text-sm font-bold uppercase tracking-widest rounded-lg transition-all transform hover:-translate-y-1 shadow-lg shadow-raffine-primary/20"
                     >
                         Find a Salon
@@ -55,7 +55,7 @@ const Hero = () => {
                         Curated beauty essentials and high-performance skincare.
                     </p>
                     <button
-                        onClick={() => navigate("/home/shop")}
+                        onClick={() => navigate("/shop")}
                         className="px-8 py-4 bg-raffine-primary hover:bg-raffine-primary/90 text-white text-sm font-bold uppercase tracking-widest rounded-lg transition-all transform hover:-translate-y-1 shadow-lg shadow-raffine-primary/20"
                     >
                         Shop Products

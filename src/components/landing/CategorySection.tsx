@@ -21,7 +21,7 @@ const CategorySection = () => {
           {categories.map((cat) => (
             <Link
               key={cat.name}
-              to={`/home/${cat.name.toLowerCase()}`}
+              to={`/${cat.name.toLowerCase()}`}
               className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-2xl border border-border bg-surface p-6 transition-transform hover:scale-[1.02]"
             >
               <img

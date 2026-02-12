@@ -37,13 +37,13 @@ const Checkout = () => {
 
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Link
-                        to="/home"
+                        to="/"
                         className="rounded-xl bg-raffine-pink px-12 py-4 text-[11px] font-bold text-white uppercase tracking-[0.2em] transition-all hover:scale-[1.05] shadow-xl shadow-raffine-pink/20"
                     >
                         Back to Home
                     </Link>
                     <Link
-                        to="/home/cart"
+                        to="/cart"
                         className="rounded-xl border border-white/10 bg-white/5 px-12 py-4 text-[11px] font-bold text-white uppercase tracking-[0.2em] transition-all hover:bg-white/10"
                     >
                         Review Bag

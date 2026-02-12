@@ -17,7 +17,7 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      navigate("/");
     }
   }, [user, navigate]);
 
@@ -51,7 +51,7 @@ const Register = () => {
       const success = register(name, email, password);
       if (success) {
         toast.success("Account created successfully!");
-        navigate("/home");
+        navigate("/");
       } else {
         toast.error("Something went wrong");
         setIsLoading(false);

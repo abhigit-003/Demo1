@@ -32,8 +32,8 @@ const Services = ({ category: propCategory }: ServicesProps) => {
     : services;
 
   const setCategory = (cat: string | null) => {
-    if (cat) navigate(`/home/${cat}`);
-    else navigate('/home/all');
+    if (cat) navigate(`/${cat}`);
+    else navigate('/all');
   };
 
   return (

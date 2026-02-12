@@ -19,13 +19,13 @@ const HeroSection = () => {
         </p>
         <div className="animate-fade-in-delay-2 mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <Link
-            to="/home/spa"
+            to="/spa"
             className="inline-flex h-12 items-center rounded-lg bg-primary px-8 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
           >
             Explore Services
           </Link>
           <Link
-            to="/home/shop"
+            to="/shop"
             className="inline-flex h-12 items-center rounded-lg border border-border bg-secondary px-8 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]"
           >
             Shop Essentials

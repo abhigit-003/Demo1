@@ -28,7 +28,7 @@ const FeaturedServices = () => {
               key={svc.name}
               className="group overflow-hidden rounded-2xl border border-border bg-card transition-transform hover:scale-[1.02]"
             >
-              <Link to={`/home/service/${svc.id}`}>
+              <Link to={`/service/${svc.id}`}>
                 <div className="relative aspect-[16/10] bg-surface">
                   <img src="/placeholder.svg" alt={svc.name} className="h-full w-full object-cover opacity-30" />
                   <button
@@ -53,7 +53,7 @@ const FeaturedServices = () => {
                 </div>
               </Link>
               <div className="p-6">
-                <Link to={`/home/service/${svc.id}`}>
+                <Link to={`/service/${svc.id}`}>
                   <h3 className="text-lg font-semibold text-card-foreground hover:text-primary transition-colors">{svc.name}</h3>
                 </Link>
                 <div className="mt-2 flex items-center gap-2">
@@ -79,7 +79,7 @@ const FeaturedServices = () => {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <Link to="/home/all" className="inline-flex h-11 items-center rounded-lg border border-border bg-secondary px-6 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]">
+          <Link to="/all" className="inline-flex h-11 items-center rounded-lg border border-border bg-secondary px-6 text-sm font-semibold text-secondary-foreground transition-transform hover:scale-[1.02]">
             View All Services
           </Link>
         </div>
