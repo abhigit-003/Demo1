@@ -4,49 +4,47 @@
 
 @layer base {
   :root {
-    --background: 340 34% 13%;
-    /* #2d161e */
-    --foreground: 340 20% 90%;
+  --background: 340 79% 23%;   /* #680C28 */
+  --foreground: 0 0% 100%;
 
-    --card: 340 28% 13%;
-    --card-foreground: 340 20% 90%;
+  --card: 340 70% 20%;
+  --card-foreground: 0 0% 100%;
 
-    --popover: 340 28% 13%;
-    --popover-foreground: 340 20% 90%;
+  --popover: 340 70% 20%;
+  --popover-foreground: 0 0% 100%;
 
-    --primary: 340 85% 55%;
-    --primary-foreground: 0 0% 100%;
+  --primary: 345 80% 57%;      /* #E93D68 */
+  --primary-foreground: 0 0% 100%;
 
-    --secondary: 340 25% 16%;
-    --secondary-foreground: 340 20% 85%;
+  --secondary: 0 0% 17%;       /* #2C2C2C */
+  --secondary-foreground: 0 0% 100%;
 
-    --muted: 340 20% 18%;
-    --muted-foreground: 340 30% 72%;
+  --muted: 340 50% 30%;
+  --muted-foreground: 0 0% 85%;
 
-    --accent: 340 85% 55%;
-    --accent-foreground: 0 0% 100%;
+  --accent: 347 100% 71%;      /* #FF6B8B */
+  --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
 
-    --border: 340 25% 22%;
-    --input: 340 25% 22%;
-    --ring: 340 85% 55%;
+  --border: 340 60% 35%;
+  --input: 340 60% 35%;
+  --ring: 345 80% 57%;
 
-    --radius: 0.75rem;
+  --sidebar-background: 340 75% 18%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 345 80% 57%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 340 50% 30%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 340 60% 35%;
+  --sidebar-ring: 345 80% 57%;
 
-    --sidebar-background: 340 30% 10%;
-    --sidebar-foreground: 340 20% 90%;
-    --sidebar-primary: 340 85% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 340 25% 16%;
-    --sidebar-accent-foreground: 340 20% 90%;
-    --sidebar-border: 340 25% 22%;
-    --sidebar-ring: 340 85% 55%;
+  --surface: 340 70% 20%;
+  --surface-foreground: 0 0% 100%;
+}
 
-    --surface: 340 28% 13%;
-    --surface-foreground: 340 20% 90%;
-  }
 }
 
 @layer base {

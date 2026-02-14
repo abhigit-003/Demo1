@@ -66,16 +66,17 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        raffine: {
-          primary: "#ee2b6c",
-          accent: "#ee2b6c",
-          pink: "#ee2b6c",
-          burgundy: "#2d161e",
-          "bg-light": "#f8f6f6",
-          "bg-dark": "#2d161e",
-          gold: "#d4c4a8",
-          surface: "#2d161e",
-        },
+raffine: {
+  primary: "#E93D68",     // Client primary pink
+  accent: "#FF6B8B",      // Gradient pastel
+  pink: "#E93D68",
+  burgundy: "#680C28",    // Main background
+  "bg-light": "#680C28",
+  "bg-dark": "#680C28",   // Used in Hero
+  gold: "#FF6B8B",        // Replace gold if needed
+  surface: "#5A0A22",
+},
+
       },
       borderRadius: {
         lg: "var(--radius)",

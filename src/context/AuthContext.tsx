@@ -3,12 +3,20 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 interface User {
   email: string;
   name: string;
+  role: "user" | "provider";
+  providerProfile?: any;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => boolean;
-  register: (name: string, email: string, password: string) => boolean;
+  login: (email: string, password: string) => User | null;
+  register: (data: {
+    name: string;
+    email: string;
+    password: string;
+    role: "user" | "provider";
+    providerProfile?: any;
+  }) => boolean;
   logout: () => void;
 }
 
@@ -17,15 +25,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem("raffine_user");
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch (e) {
-        console.error("Failed to parse stored user", e);
-        return null;
-      }
-    }
-    return null;
+    return stored ? JSON.parse(stored) : null;
   });
 
   useEffect(() => {
@@ -37,16 +37,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [user]);
 
   const login = (email: string, _password: string) => {
-    // For now, accept any non-empty password
-    const name = email.split("@")[0].charAt(0).toUpperCase() + email.split("@")[0].slice(1);
-    const u = { email, name };
-    setUser(u);
-    return true;
+    const stored = localStorage.getItem("raffine_user");
+    if (!stored) return null;
+
+    const parsedUser: User = JSON.parse(stored);
+
+    if (parsedUser.email !== email) return null;
+
+    setUser(parsedUser);
+    return parsedUser;
   };
 
-  const register = (name: string, email: string, _password: string) => {
-    const u = { email, name };
-    setUser(u);
+  const register = ({
+    name,
+    email,
+    password,
+    role,
+    providerProfile,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+    role: "user" | "provider";
+    providerProfile?: any;
+  }) => {
+    const newUser: User = {
+      name,
+      email,
+      role,
+      providerProfile: role === "provider" ? providerProfile : undefined,
+    };
+
+    setUser(newUser);
     return true;
   };
 
