@@ -72,7 +72,7 @@ const Services = ({ category: propCategory }: ServicesProps) => {
             <div key={svc.id} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all hover:bg-white/10 hover:translate-y-[-4px]">
               <Link to={`/services/${svc.id}`} className="block">
                 <div className="relative aspect-[16/10] bg-raffine-burgundy/50">
-                  <img src="/placeholder.svg" alt={svc.name} className="h-full w-full object-cover opacity-30" />
+                  <img src={svc.image} alt={svc.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <button
                     onClick={(e) => {
                       e.preventDefault();
@@ -84,7 +84,7 @@ const Services = ({ category: propCategory }: ServicesProps) => {
                           name: svc.name,
                           price: svc.price,
                           type: "service",
-                          image: "/placeholder.svg"
+                          image: svc.image
                         });
                       }
                     }}

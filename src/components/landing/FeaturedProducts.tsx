@@ -6,10 +6,10 @@ import { useWishlist } from "@/context/WishlistContext";
 import { toast } from "sonner";
 
 const products = [
-  { id: "p1", name: "Midnight Radiance Oil", price: 85 },
-  { id: "p2", name: "Velvet Moisture Cloud", price: 42 },
-  { id: "p3", name: "Sculpting Stone Roller", price: 34 },
-  { id: "p4", name: "Purifying Essence Toner", price: 48 },
+  { id: "p1", name: "Midnight Radiance Oil", price: 85, image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=1000&auto=format&fit=crop" },
+  { id: "p2", name: "Velvet Moisture Cloud", price: 42, image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?q=80&w=1000&auto=format&fit=crop" },
+  { id: "p3", name: "Sculpting Stone Roller", price: 34, image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=1000&auto=format&fit=crop" },
+  { id: "p4", name: "Purifying Essence Toner", price: 48, image: "https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?q=80&w=1000&auto=format&fit=crop" },
 ];
 
 const FeaturedProducts = () => {
@@ -26,7 +26,7 @@ const FeaturedProducts = () => {
             <div key={p.name} className="group overflow-hidden rounded-2xl border border-border bg-card transition-transform hover:scale-[1.02]">
               <Link to={`/product/${p.id}`}>
                 <div className="relative aspect-square bg-surface">
-                  <img src="/placeholder.svg" alt={p.name} className="h-full w-full object-cover opacity-30" />
+                  <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <button
                     onClick={(e) => {
                       e.preventDefault();
@@ -38,7 +38,7 @@ const FeaturedProducts = () => {
                           name: p.name,
                           price: p.price,
                           type: "product",
-                          image: "/placeholder.svg"
+                          image: p.image
                         });
                       }
                     }}

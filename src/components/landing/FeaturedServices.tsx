@@ -6,9 +6,9 @@ import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
 
 const services = [
-  { id: "s1", name: "Signature Deep Tissue Massage", rating: 4.9, reviews: 128, price: "₹145" },
-  { id: "s2", name: "HydraFacial Glow Treatment", rating: 4.8, reviews: 96, price: "₹160" },
-  { id: "s3", name: "Hot Stone Therapy", rating: 5.0, reviews: 74, price: "₹180" },
+  { id: "s1", name: "Signature Deep Tissue Massage", rating: 4.9, reviews: 128, price: "₹145", image: "https://images.unsplash.com/photo-1544161515-4af6b1d46af0?q=80&w=1000&auto=format&fit=crop" },
+  { id: "s2", name: "HydraFacial Glow Treatment", rating: 4.8, reviews: 96, price: "₹160", image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1000&auto=format&fit=crop" },
+  { id: "s3", name: "Hot Stone Therapy", rating: 5.0, reviews: 74, price: "₹180", image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1000&auto=format&fit=crop" },
 ];
 
 const FeaturedServices = () => {
@@ -30,7 +30,7 @@ const FeaturedServices = () => {
             >
               <Link to={`/service/${svc.id}`}>
                 <div className="relative aspect-[16/10] bg-surface">
-                  <img src="/placeholder.svg" alt={svc.name} className="h-full w-full object-cover opacity-30" />
+                  <img src={svc.image} alt={svc.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <button
                     onClick={(e) => {
                       e.preventDefault();
@@ -42,7 +42,7 @@ const FeaturedServices = () => {
                           name: svc.name,
                           price: parseFloat(svc.price.replace("₹", "")),
                           type: "service",
-                          image: "/placeholder.svg"
+                          image: svc.image
                         });
                       }
                     }}
