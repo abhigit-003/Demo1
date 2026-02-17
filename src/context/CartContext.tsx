@@ -6,6 +6,7 @@ export interface CartItem {
   price: number;
   quantity: number;
   type: "product" | "service";
+  date?: string;
 }
 
 interface CartContextType {

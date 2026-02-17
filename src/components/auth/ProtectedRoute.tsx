@@ -2,8 +2,12 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
 const ProtectedRoute = () => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const location = useLocation();
+
+    if (loading) {
+        return <div className="flex h-screen w-full items-center justify-center bg-raffine-burgundy text-white">Loading...</div>;
+    }
 
     if (!user) {
         // Redirect them to the /login page, but save the current location they were

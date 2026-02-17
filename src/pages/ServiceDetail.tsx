@@ -1,15 +1,19 @@
 import { useParams, Link } from "react-router-dom";
 import { Star, MapPin, Clock, ChevronLeft, Heart } from "lucide-react";
-import { services } from "@/data/mockData";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useService } from "@/hooks/useServices";
 import { toast } from "sonner";
 
 const ServiceDetail = () => {
   const { id } = useParams();
   const { addItem } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const svc = services.find((s) => s.id === id);
+  const { data: svc, isLoading } = useService(id || "");
+
+  if (isLoading) {
+    return <div className="text-white text-center pt-20">Loading...</div>;
+  }
 
   if (!svc) {
     return (

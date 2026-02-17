@@ -17,7 +17,7 @@ const Index = () => {
         <CategorySection />
         <FeaturedServices />
         <HowItWorks />
-        <FeaturedProducts />
+        <FeaturedProducts limit={4} />
         <VendorSection />
         <Testimonials />
         <TrustMetrics />
