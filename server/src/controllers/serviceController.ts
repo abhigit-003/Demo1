@@ -13,7 +13,7 @@ export const getServices = async (req: Request, res: Response) => {
 
 export const getServiceById = async (req: Request, res: Response) => {
   try {
-    const service = await Service.findByPk(req.params.id);
+    const service = await Service.findByPk(String(req.params.id));
     if (!service) {
       res.status(404).json({ message: 'Service not found' });
       return;
@@ -37,7 +37,7 @@ export const createService = async (req: Request, res: Response) => {
 
 export const updateService = async (req: Request, res: Response) => {
   try {
-    const service = await Service.findByPk(req.params.id);
+    const service = await Service.findByPk(String(req.params.id));
     if (!service) {
       res.status(404).json({ message: 'Service not found' });
       return;
@@ -58,7 +58,7 @@ export const updateService = async (req: Request, res: Response) => {
 
 export const deleteService = async (req: Request, res: Response) => {
   try {
-    const service = await Service.findByPk(req.params.id);
+    const service = await Service.findByPk(String(req.params.id));
     if (!service) {
       res.status(404).json({ message: 'Service not found' });
       return;

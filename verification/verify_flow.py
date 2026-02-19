@@ -16,7 +16,7 @@ def run():
             # 1. Register (use random email to avoid conflict)
             email = f"test_{random.randint(1000, 9999)}@example.com"
             print(f"Navigating to Register with email {email}...")
-            page.goto("http://localhost:8080/register")
+            page.goto("http://localhost:3000/register")
 
             # Fill form
             print("Filling registration form...")
@@ -46,7 +46,7 @@ def run():
 
             # 2. Browse Services
             print("Navigating to Services...")
-            page.goto("http://localhost:8080/all")
+            page.goto("http://localhost:3000/all")
 
             # Wait for services
             try:
@@ -69,7 +69,7 @@ def run():
 
             # 4. View Cart
             print("Navigating to Cart...")
-            page.goto("http://localhost:8080/cart")
+            page.goto("http://localhost:3000/cart")
             page.wait_for_url("**/cart", timeout=5000)
             time.sleep(2)
             page.screenshot(path="verification/cart.png")

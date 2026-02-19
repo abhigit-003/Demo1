@@ -13,7 +13,7 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const getProductById = async (req: Request, res: Response) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(String(req.params.id));
     if (!product) {
       res.status(404).json({ message: 'Product not found' });
       return;
@@ -37,7 +37,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request, res: Response) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(String(req.params.id));
     if (!product) {
       res.status(404).json({ message: 'Product not found' });
       return;
@@ -57,7 +57,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(String(req.params.id));
     if (!product) {
       res.status(404).json({ message: 'Product not found' });
       return;
