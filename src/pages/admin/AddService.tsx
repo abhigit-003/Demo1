@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Plus, Sparkles } from "lucide-react";
+import { ChevronLeft, Plus, Sparkles, MapPin, Clock, User, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import api from "@/lib/api";
 
 const AddService = () => {
     const navigate = useNavigate();
@@ -11,30 +12,36 @@ const AddService = () => {
         category: "spa",
         price: "",
         description: "",
+        duration: "60 min",
+        location: "Premium Suite",
+        specialist: "",
+        image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1000",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            const existingServices = JSON.parse(localStorage.getItem("raffine_custom_services") || "[]");
-            const newService = {
+        try {
+            await api.post('/services', {
                 ...formData,
-                id: Date.now().toString(),
-                rating: "5.0",
-                reviews: "0",
-                duration: "60 min",
-                location: "Premium Suite"
-            };
-
-            localStorage.setItem("raffine_custom_services", JSON.stringify([...existingServices, newService]));
+                price: parseFloat(formData.price),
+                rating: 5.0, // Default for new service
+                reviews: 0,
+                amenities: ["Luxury Robe", "Refreshments", "Private Shower"] // Default amenities
+            });
 
             toast.success("Service added successfully!");
-            setIsLoading(false);
             navigate("/dashboard");
-        }, 1000);
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to create service");
+            setIsLoading(false);
+        }
+    };
+
+    const handleChange = (field: string, value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
     };
 
     return (
@@ -60,6 +67,7 @@ const AddService = () => {
                     <div className="absolute -top-24 -right-24 h-48 w-48 bg-raffine-pink/5 rounded-full blur-3xl text-white" />
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                        {/* Basic Info */}
                         <div className="grid gap-6 md:grid-cols-2">
                             <div className="space-y-2">
                                 <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Service Name</label>
@@ -67,7 +75,7 @@ const AddService = () => {
                                     type="text"
                                     required
                                     value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    onChange={(e) => handleChange('name', e.target.value)}
                                     className="w-full rounded-xl border border-white/5 bg-white/5 px-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
                                     placeholder="e.g. Royal Gold Facial"
                                 />
@@ -77,7 +85,7 @@ const AddService = () => {
                                 <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Category</label>
                                 <select
                                     value={formData.category}
-                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    onChange={(e) => handleChange('category', e.target.value)}
                                     className="w-full rounded-xl border border-white/5 bg-white/5 px-4 py-4 text-sm text-white outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all appearance-none cursor-pointer"
                                 >
                                     <option value="spa" className="bg-[#2d161e]">Spa & Massage</option>
@@ -88,16 +96,81 @@ const AddService = () => {
                             </div>
                         </div>
 
+                        {/* Price & Duration */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Price (₹)</label>
+                                <input
+                                    type="number"
+                                    required
+                                    value={formData.price}
+                                    onChange={(e) => handleChange('price', e.target.value)}
+                                    className="w-full rounded-xl border border-white/5 bg-white/5 px-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
+                                    placeholder="2500"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Duration</label>
+                                <div className="relative">
+                                    <Clock className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.duration}
+                                        onChange={(e) => handleChange('duration', e.target.value)}
+                                        className="w-full rounded-xl border border-white/5 bg-white/5 pl-10 pr-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
+                                        placeholder="60 min"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Location & Specialist */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Location</label>
+                                <div className="relative">
+                                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.location}
+                                        onChange={(e) => handleChange('location', e.target.value)}
+                                        className="w-full rounded-xl border border-white/5 bg-white/5 pl-10 pr-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
+                                        placeholder="Suite / Room"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Specialist Name</label>
+                                <div className="relative">
+                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.specialist}
+                                        onChange={(e) => handleChange('specialist', e.target.value)}
+                                        className="w-full rounded-xl border border-white/5 bg-white/5 pl-10 pr-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
+                                        placeholder="Name of Specialist"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Image URL */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Price (₹)</label>
-                            <input
-                                type="number"
-                                required
-                                value={formData.price}
-                                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                className="w-full rounded-xl border border-white/5 bg-white/5 px-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
-                                placeholder="2500"
-                            />
+                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-raffine-gold ml-1">Image URL</label>
+                            <div className="relative">
+                                <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
+                                <input
+                                    type="text"
+                                    required
+                                    value={formData.image}
+                                    onChange={(e) => handleChange('image', e.target.value)}
+                                    className="w-full rounded-xl border border-white/5 bg-white/5 pl-10 pr-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all"
+                                    placeholder="https://..."
+                                />
+                            </div>
                         </div>
 
                         <div className="space-y-2">
@@ -106,7 +179,7 @@ const AddService = () => {
                                 required
                                 rows={4}
                                 value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                onChange={(e) => handleChange('description', e.target.value)}
                                 className="w-full rounded-xl border border-white/5 bg-white/5 px-4 py-4 text-sm text-white placeholder:text-gray-600 outline-none focus:border-raffine-gold/50 focus:bg-white/10 transition-all resize-none"
                                 placeholder="Describe the luxury experience..."
                             />

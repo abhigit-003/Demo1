@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { Star, ChevronLeft, Minus, Plus, ShoppingBag, Heart } from "lucide-react";
 import { useState } from "react";
-import { products } from "@/data/mockData";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useProduct } from "@/hooks/useProducts";
 import { toast } from "sonner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -11,9 +11,13 @@ const ProductDetail = () => {
   const { id } = useParams();
   const { items, addItem } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const product = products.find((p) => p.id === id);
+  const { data: product, isLoading } = useProduct(id || "");
   const [quantity, setQuantity] = useState(1);
   const [selectedShade, setSelectedShade] = useState(0);
+
+  if (isLoading) {
+    return <div className="text-white text-center pt-20">Loading...</div>;
+  }
 
   if (!product) {
     return (

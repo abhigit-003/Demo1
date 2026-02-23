@@ -1,6 +1,6 @@
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Star, Heart, SlidersHorizontal } from "lucide-react";
-import { services } from "@/data/mockData";
+import { useServices } from "@/hooks/useServices";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -22,14 +22,19 @@ const Services = ({ category: propCategory }: ServicesProps) => {
   const urlCategory = searchParams.get("category");
   const category = propCategory || urlCategory;
 
+  const { data: services, isLoading } = useServices();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { addItem } = useCart();
   const { ref, isVisible } = useScrollReveal(0.05);
   const navigate = useNavigate();
 
+  if (isLoading) return <div className="text-white text-center pt-20">Loading services...</div>;
+
+  const allServices = services || [];
+
   const filtered = category
-    ? services.filter((s) => s.category === category)
-    : services;
+    ? allServices.filter((s) => s.category === category)
+    : allServices;
 
   const setCategory = (cat: string | null) => {
     if (cat) navigate(`/${cat}`);

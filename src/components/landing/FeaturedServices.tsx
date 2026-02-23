@@ -3,18 +3,17 @@ import { Star, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
+import { useServices } from "@/hooks/useServices";
 import { toast } from "sonner";
 
-const services = [
-  { id: "s1", name: "Signature Deep Tissue Massage", rating: 4.9, reviews: 128, price: "₹145", image: "https://images.unsplash.com/photo-1544161515-4af6b1d46af0?q=80&w=1000&auto=format&fit=crop" },
-  { id: "s2", name: "HydraFacial Glow Treatment", rating: 4.8, reviews: 96, price: "₹160", image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1000&auto=format&fit=crop" },
-  { id: "s3", name: "Hot Stone Therapy", rating: 5.0, reviews: 74, price: "₹180", image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1000&auto=format&fit=crop" },
-];
-
 const FeaturedServices = () => {
+  const { data: allServices, isLoading } = useServices();
+  const services = allServices?.slice(0, 3) || [];
   const { ref, isVisible } = useScrollReveal();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { addItem } = useCart();
+
+  if (isLoading) return null;
 
   return (
     <section id="services" ref={ref} className="py-24">
@@ -40,7 +39,7 @@ const FeaturedServices = () => {
                         addToWishlist({
                           id: svc.id,
                           name: svc.name,
-                          price: parseFloat(svc.price.replace("₹", "")),
+                          price: svc.price,
                           type: "service",
                           image: svc.image
                         });
@@ -62,11 +61,10 @@ const FeaturedServices = () => {
                   <span className="text-sm text-muted-foreground">({svc.reviews} reviews)</span>
                 </div>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-lg font-bold text-foreground">{svc.price}</span>
+                  <span className="text-lg font-bold text-foreground">₹{svc.price}</span>
                   <button
                     onClick={() => {
-                      const priceNum = parseFloat(svc.price.replace("₹", ""));
-                      addItem({ id: svc.id, name: svc.name, price: priceNum, type: "service" });
+                      addItem({ id: svc.id, name: svc.name, price: svc.price, type: "service" });
                       toast.success(`${svc.name} added to your bag`);
                     }}
                     className="rounded-lg bg-raffine-pink px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 shadow-lg shadow-raffine-pink/10"

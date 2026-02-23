@@ -1,19 +1,24 @@
 import { useLocation, Link } from "react-router-dom";
-import { products, services, items } from "@/data/mockData";
-import { Star, ShoppingBag, Clock, MapPin, Package, Sparkles, Tag, Search } from "lucide-react";
+import { Star, ShoppingBag, Sparkles, Search } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useServices } from "@/hooks/useServices";
+import { useProducts } from "@/hooks/useProducts";
 import { toast } from "sonner";
 
-type SearchResultType = "product" | "service" | "item";
+type SearchResultType = "product" | "service";
 
 const SearchResults = () => {
     const location = useLocation();
     const { addItem } = useCart();
+    const { data: services } = useServices();
+    const { data: products } = useProducts();
+
     const queryParams = new URLSearchParams(location.search);
     const q = queryParams.get("q")?.toLowerCase() || "";
 
     // Helper function for unified filtering
-    const filterData = <T extends { name: string; description: string }>(data: T[], type: SearchResultType): (T & { type: SearchResultType })[] => {
+    const filterData = <T extends { name: string; description: string }>(data: T[] | undefined, type: SearchResultType): (T & { type: SearchResultType })[] => {
+        if (!data) return [];
         return data
             .filter((item) =>
                 item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)
@@ -23,28 +28,24 @@ const SearchResults = () => {
 
     const filteredProducts = filterData(products, "product");
     const filteredServices = filterData(services, "service");
-    const filteredItems = filterData(items, "item");
 
-    const totalResults = filteredProducts.length + filteredServices.length + filteredItems.length;
+    const totalResults = filteredProducts.length + filteredServices.length;
     const hasResults = totalResults > 0;
 
     const ResultCard = ({ item }: { item: any }) => {
         const isProduct = item.type === "product";
         const isService = item.type === "service";
-        const isItem = item.type === "item";
 
         const getLink = () => {
             if (isProduct) return `/product/${item.id}`;
-            if (isService) return `/service/${item.id}`;
-            return `/item/${item.id}`;
+            return `/service/${item.id}`;
         };
 
         return (
-            <div className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-raffine-primary/50 transition-all duration-300 flex flex-col h-full">
+            <div className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-raffine-pink transition-all duration-300 flex flex-col h-full">
                 <div className="aspect-square md:aspect-[16/10] bg-white/5 relative overflow-hidden flex items-center justify-center text-white/10">
                     {isProduct && <ShoppingBag className="size-16" />}
                     {isService && <Sparkles className="size-16" />}
-                    {isItem && <Package className="size-16" />}
 
                     {item.price && (
                         <button
@@ -53,7 +54,7 @@ const SearchResults = () => {
                                 addItem({ id: item.id, name: item.name, price: item.price, type: item.type });
                                 toast.success(`${item.name} added to your bag`);
                             }}
-                            className="absolute bottom-4 right-4 bg-raffine-primary text-white p-3 rounded-full shadow-xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10"
+                            className="absolute bottom-4 right-4 bg-raffine-pink text-white p-3 rounded-full shadow-xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-10"
                         >
                             <ShoppingBag className="size-5" />
                         </button>
@@ -66,14 +67,14 @@ const SearchResults = () => {
                             {item.type}
                         </span>
                         {item.rating && (
-                            <div className="flex items-center gap-1 text-raffine-primary">
+                            <div className="flex items-center gap-1 text-raffine-pink">
                                 <Star className="size-3 fill-current" />
                                 <span className="text-xs font-bold">{item.rating}</span>
                             </div>
                         )}
                     </div>
 
-                    <h3 className="text-white text-xl font-semibold group-hover:text-raffine-primary transition-colors mb-2">
+                    <h3 className="text-white text-xl font-semibold group-hover:text-raffine-pink transition-colors mb-2">
                         <Link to={getLink()}>{item.name}</Link>
                     </h3>
 
@@ -89,7 +90,7 @@ const SearchResults = () => {
                         )}
                         <Link
                             to={getLink()}
-                            className="bg-white/10 hover:bg-raffine-primary text-white px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all"
+                            className="bg-white/10 hover:bg-raffine-pink text-white px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all"
                         >
                             View Details
                         </Link>
@@ -158,22 +159,6 @@ const SearchResults = () => {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                             {filteredProducts.map(p => <ResultCard key={p.id} item={p} />)}
-                        </div>
-                    </section>
-                )}
-
-                {/* Items Group */}
-                {filteredItems.length > 0 && (
-                    <section>
-                        <div className="flex items-center gap-4 mb-8">
-                            <Tag className="size-6 text-raffine-pink" />
-                            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest">
-                                Lifestyle Items
-                            </h2>
-                            <div className="h-px bg-white/10 flex-1 ml-4" />
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {filteredItems.map(i => <ResultCard key={i.id} item={i} />)}
                         </div>
                     </section>
                 )}
