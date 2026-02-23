@@ -3,19 +3,21 @@ import { ShoppingBag, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useProducts } from "@/hooks/useProducts";
 import { toast } from "sonner";
 
-const products = [
-  { id: "p1", name: "Midnight Radiance Oil", price: 85, image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=1000&auto=format&fit=crop" },
-  { id: "p2", name: "Velvet Moisture Cloud", price: 42, image: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?q=80&w=1000&auto=format&fit=crop" },
-  { id: "p3", name: "Sculpting Stone Roller", price: 34, image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=1000&auto=format&fit=crop" },
-  { id: "p4", name: "Purifying Essence Toner", price: 48, image: "https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?q=80&w=1000&auto=format&fit=crop" },
-];
+interface FeaturedProductsProps {
+  limit?: number;
+}
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ limit }: FeaturedProductsProps) => {
+  const { data: allProducts, isLoading } = useProducts();
+  const products = limit ? allProducts?.slice(0, limit) || [] : allProducts || [];
   const { ref, isVisible } = useScrollReveal();
   const { addItem } = useCart();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+
+  if (isLoading) return null;
 
   return (
     <section id="products" ref={ref} className="py-24">

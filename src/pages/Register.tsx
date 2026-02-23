@@ -85,7 +85,7 @@ const Register = () => {
     if (user) navigate("/");
   }, [user, navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name || !email || !password || !confirmPassword) {
@@ -113,38 +113,42 @@ const Register = () => {
 
     setIsLoading(true);
 
-    const success = register({
-      name,
-      email,
-      password,
-      role,
-      providerProfile:
-        role === "provider"
-          ? {
-              businessName,
-              category,
-              phone,
-              businessEmail,
-              city,
-              stateRegion,
-              postalCode,
-              address,
-              experience,
-              description,
-              openingTime,
-              closingTime,
-              website,
-              instagram,
-              gstNumber,
-            }
-          : null,
-    });
+    try {
+      const success = await register({
+        name,
+        email,
+        password,
+        role,
+        providerProfile:
+          role === "provider"
+            ? {
+                businessName,
+                category,
+                phone,
+                businessEmail,
+                city,
+                stateRegion,
+                postalCode,
+                address,
+                experience,
+                description,
+                openingTime,
+                closingTime,
+                website,
+                instagram,
+                gstNumber,
+              }
+            : null,
+      });
 
-    if (success) {
-      toast.success("Account created successfully!");
-      navigate("/");
-    } else {
-      toast.error("Something went wrong");
+      if (success) {
+        toast.success("Account created successfully!");
+        navigate("/");
+      } else {
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.error(err);
       setIsLoading(false);
     }
   };

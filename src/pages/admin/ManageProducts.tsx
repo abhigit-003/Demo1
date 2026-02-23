@@ -2,33 +2,55 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, Edit, Trash2, Package, Search } from "lucide-react";
 import { toast } from "sonner";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/lib/api";
 
-const initialProducts = [
-    { id: "1", name: "Midnight Radiance Oil", category: "Skincare", price: "2,450" },
-    { id: "2", name: "Sculpting Stone Roller", category: "Accessories", price: "1,850" },
-    { id: "3", name: "Silk Sleeping Mask", category: "Lifestyle", price: "1,200" },
-    { id: "4", name: "Velvet Body Butter", category: "Body Care", price: "3,100" },
-];
+interface Product {
+    id: string;
+    name: string;
+    category: string;
+    price: number;
+    description?: string;
+}
 
 const ManageProducts = () => {
     const navigate = useNavigate();
-    const [products, setProducts] = useState(() => {
-        const saved = localStorage.getItem("raffine_managed_products");
-        return saved ? JSON.parse(saved) : initialProducts;
-    });
+    const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
 
+    const { data: products = [], isLoading } = useQuery({
+        queryKey: ['products'],
+        queryFn: async () => {
+            const { data } = await api.get<Product[]>('/products');
+            return data;
+        }
+    });
+
+    const deleteMutation = useMutation({
+        mutationFn: async (id: string) => {
+            await api.delete(`/products/${id}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            toast.success("Product removed from collection");
+        },
+        onError: () => {
+            toast.error("Failed to remove product");
+        }
+    });
+
     const handleDelete = (id: string) => {
-        const updated = products.filter((p: any) => p.id !== id);
-        setProducts(updated);
-        localStorage.setItem("raffine_managed_products", JSON.stringify(updated));
-        toast.success("Product removed from collection");
+        if (confirm("Are you sure you want to delete this product?")) {
+            deleteMutation.mutate(id);
+        }
     };
 
-    const filtered = products.filter((p: any) =>
+    const filtered = products.filter((p) =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    if (isLoading) return <div className="text-white text-center pt-20">Loading products...</div>;
 
     return (
         <div className="pb-20">
@@ -74,7 +96,7 @@ const ManageProducts = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
-                                {filtered.map((product: any) => (
+                                {filtered.map((product) => (
                                     <tr key={product.id} className="group hover:bg-white/5 transition-colors">
                                         <td className="px-6 py-5">
                                             <div className="flex items-center gap-3">
@@ -89,7 +111,7 @@ const ManageProducts = () => {
                                                 {product.category}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-5 text-sm font-black text-raffine-gold">₹{product.price}</td>
+                                        <td className="px-6 py-5 text-sm font-black text-raffine-gold">₹{product.price.toLocaleString()}</td>
                                         <td className="px-6 py-5 text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button className="h-9 w-9 flex items-center justify-center rounded-lg bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all">

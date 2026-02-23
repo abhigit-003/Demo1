@@ -27,6 +27,7 @@ import ManageProducts from "./pages/admin/ManageProducts";
 import Analytics from "./pages/admin/Analytics";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
+import Bookings from "./pages/Bookings";
 import NotFound from "./pages/NotFound";
 import { Navigate } from "react-router-dom";
 
@@ -69,6 +70,7 @@ const App = () => (
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/my-bookings" element={<Bookings />} />
                     <Route path="/cart" element={<Cart />} />
 
                     {/* Admin Modules */}

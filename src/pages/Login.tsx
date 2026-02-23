@@ -29,7 +29,7 @@ const Login = () => {
     }
   }, [user, navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -39,8 +39,8 @@ const Login = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      const loggedUser = login(email, password);
+    try {
+      const loggedUser = await login(email, password);
 
       if (loggedUser) {
         toast.success("Welcome back!");
@@ -52,10 +52,12 @@ const Login = () => {
           navigate(from, { replace: true });
         }
       } else {
-        toast.error("Invalid credentials");
         setIsLoading(false);
       }
-    }, 800);
+    } catch (err) {
+      console.error(err);
+      setIsLoading(false);
+    }
   };
 
   return (
