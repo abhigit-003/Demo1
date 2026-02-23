@@ -3,48 +3,15 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { toast } from "sonner";
-
-const products = [
-    {
-        id: "p1",
-        brand: "Aesop",
-        name: "Parsley Seed Serum",
-        price: 75.00,
-        image:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuABUU0gS5eZJeXL847vbkvifFQLyNw3cZ7NwEhsTEl-kR2rJekDD_uAF6NoVJ841jyNCvnIBb-Q7OlH-5p6i3KqQwqLhgX9vxyTxSXuOij7fO9t-idtdRr5iqIKrGHrUrqyZUvG8byKeJlJr9GeRpIlHBMTqK8-FhNBwpjEW1op3da0HTUptDdO4I5xm2KxYvscZpCQiBLSwxdyfHhZc9Dk37GE0DX_Mcr3OAY8vX8vdJkmWXwL3Bx1mUyeoc845hpdambx8Um5MXc",
-    },
-    {
-        id: "p2",
-        brand: "La Mer",
-        name: "Crème de la Mer",
-        price: 195.00,
-        image:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuCyfSa935aTCwFd53g0K2hSNtZ2FcTNq6xH_ONNzdx94UYq__ptDCPyIa7srONJFjIGxUnFM5VHejR1WYjtA3H2T37ws-CIgc6sF3TEEISTZGSf6Hor0VBmYvL_GDTxzpe-k9vecm_4HHRsZ-AMBGV05peeM25PFcH0LPpxEBajrywh1DoEUzt3zOfo-VHCUmOJgKk0CjXSGFQLxkyRXYa918c_z16xi9emaDY1QJp3aTTz_V_x7F_48lLDRcgUlMs85Putcs4JdfM",
-    },
-    {
-        id: "p3",
-        brand: "Byredo",
-        name: "Gypsy Water",
-        price: 150.00,
-        new: true,
-        image:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuCI8mQNxLHX-Tmx3WIJetIt7E6D7I2qvY6AEaeJ288HnvoTpEy4uJKXARd9chhQx57izAUdtclWrNrMFJVylMFzB6c7ch-NFBmP0_-yNYl48HRCYRcr-H0thwgN9QWaGNSfUKmbUE3VtHOYO6-1ciKLldYenVeRzjnFJI84K1EO2vRlf6XIolFw7IAbv_ZSFmhHF-C4rhs8UNs2XRjOpDb7bvbIoP_NjswrL5qTgDUboej3dmFx9LGJ5yxPiyAoX1TD7B31n1H2Pls",
-    },
-    {
-        id: "p4",
-        brand: "Diptyque",
-        name: "Baies Candle",
-        price: 68.00,
-        image:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuBizigtcvcLwf7Jy6MMiUOQoJiu733--6nMr01aYh2mAP9vlwpnxyQHBdX0RQ12gQB88Ae-HsW1ddXWxX5eihIHn7uenZSsOEaHb9kdluSYcvr9jDvJlFnx0tXGu1-aNCRgxiquak1ji8b3OIcTkBF3i4G5ytK8oONLQnv_dPKStUUsNonZB3fQZw7glZt4IuJyeDTto4PpkrUPQ6sUgXBYP7DFnZB0y1iCjLByCrkDizS4HbhgmdYUkrCuTFjOwamWdB4LwrlotPo",
-    },
-];
+import { useProducts } from "@/hooks/useProducts";
+import { Product } from "@/data/mockData";
 
 const StaffPicks = () => {
     const { addItem } = useCart();
     const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+    const { data: products, isLoading } = useProducts(4);
 
-    const handleAddToCart = (product: typeof products[0]) => {
+    const handleAddToCart = (product: Product) => {
         addItem({
             id: product.id,
             name: product.name,
@@ -53,6 +20,12 @@ const StaffPicks = () => {
         });
         toast.success(`${product.name} added to cart!`);
     };
+
+    if (isLoading) return <div className="text-white text-center py-20">Loading staff picks...</div>;
+
+    // Use products if available, otherwise fallback (or return null)
+    // Ideally we shouldn't fallback to hardcoded if API fails, but user might want something displayed.
+    // Given the task is to make it dynamic, I'll rely on API.
 
     return (
         <section id="products" className="py-16 md:py-24 px-4 md:px-10 max-w-[1440px] mx-auto">
@@ -73,18 +46,13 @@ const StaffPicks = () => {
                 </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
-                {products.map((product, index) => (
+                {products?.map((product, index) => (
                     <div key={index} className="group flex flex-col gap-3 cursor-pointer">
                         <div className="relative aspect-[3/4] bg-raffine-surface rounded-lg overflow-hidden">
                             <div
                                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                                 style={{ backgroundImage: `url('${product.image}')` }}
                             ></div>
-                            {product.new && (
-                                <div className="absolute top-3 left-3 bg-raffine-primary text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">
-                                    New
-                                </div>
-                            )}
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -118,7 +86,7 @@ const StaffPicks = () => {
                         <div className="flex flex-col flex-1">
                             <Link to={`/product/${product.id}`} className="block group/link">
                                 <h5 className="text-raffine-gold text-xs font-bold uppercase tracking-wider mb-1">
-                                    {product.brand}
+                                    Raffine
                                 </h5>
                                 <p className="text-white text-base font-medium leading-tight mb-1 group-hover/link:underline decoration-raffine-primary underline-offset-4">
                                     {product.name}
