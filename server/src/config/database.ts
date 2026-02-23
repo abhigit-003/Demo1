@@ -1,34 +1,37 @@
 import { Sequelize } from 'sequelize';
-import path from 'path';
 import dotenv from 'dotenv';
+import { URL } from 'url';
 
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
-const dbUrl = process.env.DATABASE_URL;
+const isTest = process.env.NODE_ENV === 'test';
 
-let sequelize: Sequelize;
+let dbUrl = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/raffine';
 
-if (dbUrl) {
-  console.log('Using PostgreSQL database');
-  sequelize = new Sequelize(dbUrl, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    logging: false,
-    dialectOptions: isProduction ? {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    } : {}
-  });
-} else {
-  console.log('Using SQLite database (fallback)');
-  sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.join(__dirname, '../../database.sqlite'),
-    logging: false
-  });
+if (isTest) {
+  try {
+    const url = new URL(dbUrl);
+    url.pathname = '/raffine_test';
+    dbUrl = url.toString();
+    console.log(`Test environment detected. Using database: ${dbUrl}`);
+  } catch (e) {
+    console.warn('Could not parse DATABASE_URL for test modification. Using provided URL.');
+  }
 }
+
+console.log(`Initializing database connection... Environment: ${process.env.NODE_ENV}`);
+
+const sequelize = new Sequelize(dbUrl, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  logging: false,
+  dialectOptions: isProduction ? {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  } : {}
+});
 
 export default sequelize;

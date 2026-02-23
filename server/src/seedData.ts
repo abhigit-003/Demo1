@@ -1,3 +1,8 @@
+import Service from './models/Service';
+import Product from './models/Product';
+import User from './models/User';
+import bcrypt from 'bcryptjs';
+
 export const services = [
   { id: "s1", name: "Signature Deep Tissue Massage", category: "spa", rating: 4.9, reviews: 128, price: 145, duration: "60 min", description: "A full-body deep tissue experience targeting chronic tension and muscle knots with premium aromatherapy oils.", location: "Downtown Wellness Center", specialist: "Elena Rossi", amenities: ["Steam Room", "Shower Suite", "Herbal Tea", "Robe & Slippers"], image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1000&auto=format&fit=crop" },
   { id: "s2", name: "HydraFacial Glow Treatment", category: "spa", rating: 4.8, reviews: 96, price: 160, duration: "45 min", description: "Multi-step facial combining cleansing, exfoliation, extraction, hydration and antioxidant protection.", location: "Raffine Flagship Spa", specialist: "Sofia Laurent", amenities: ["Private Suite", "LED Therapy", "Complimentary Serum"], image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1000&auto=format&fit=crop" },
@@ -19,3 +24,46 @@ export const products = [
   { id: "p3", name: "Sculpting Stone Roller", price: 34, description: "Premium jade facial roller designed to reduce puffiness, improve circulation, and enhance product absorption.", rating: 4.7, reviews: 96, details: [{ label: "Materials", content: "Grade-A Xiuyan jade, stainless steel frame, silicone grip." }, { label: "How to Use", content: "Roll outward from center of face. Store in refrigerator for extra de-puffing." }, { label: "Shipping", content: "Free shipping on orders over ₹50. Arrives in 3-5 business days." }], image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=1000&auto=format&fit=crop" },
   { id: "p4", name: "Purifying Essence Toner", price: 48, description: "A pH-balancing toner infused with witch hazel and green tea to refine pores and prep skin for hydration.", rating: 4.6, reviews: 152, details: [{ label: "Ingredients", content: "Witch hazel, green tea extract, centella asiatica, glycerin." }, { label: "How to Use", content: "Saturate a cotton pad and sweep across face after cleansing." }, { label: "Shipping", content: "Free shipping on orders over ₹50. Arrives in 3-5 business days." }], image: "https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?q=80&w=1000&auto=format&fit=crop" },
 ];
+
+export const seedDatabase = async () => {
+    // Seed services
+    const serviceCount = await Service.count();
+    if (serviceCount === 0) {
+      console.log('Seeding services...');
+      for (const s of services) {
+        const { id, ...data } = s as any;
+        await Service.create(data);
+      }
+    }
+
+    // Seed products
+    const productCount = await Product.count();
+    if (productCount === 0) {
+      console.log('Seeding products...');
+      for (const p of products) {
+        const { id, ...data } = p as any;
+        await Product.create(data);
+      }
+    }
+
+    // Seed users
+    const userCount = await User.count();
+    if (userCount === 0) {
+        console.log('Seeding users...');
+        const hashedPassword = await bcrypt.hash('password123', 10);
+        await User.create({
+            name: 'Demo Provider',
+            email: 'provider@raffine.com',
+            password: hashedPassword,
+            role: 'provider',
+            providerProfile: { businessName: 'Raffine Spa' }
+        });
+        await User.create({
+            name: 'Demo User',
+            email: 'user@raffine.com',
+            password: hashedPassword,
+            role: 'user'
+        });
+        console.log('Seeded demo users (provider@raffine.com / password123)');
+    }
+};
