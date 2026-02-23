@@ -3,6 +3,7 @@ import Booking from '../models/Booking';
 import Wishlist from '../models/Wishlist';
 import Service from '../models/Service';
 import Product from '../models/Product';
+import User from '../models/User';
 
 export const getBookings = async (req: Request, res: Response) => {
   try {
@@ -18,13 +19,57 @@ export const getBookings = async (req: Request, res: Response) => {
   }
 };
 
+export const getProviderBookings = async (req: Request, res: Response) => {
+  try {
+    // Find all services owned by this provider
+    const services = await Service.findAll({
+      where: { providerId: req.user?.userId },
+      attributes: ['id']
+    });
+
+    const serviceIds = services.map(s => s.id);
+
+    if (serviceIds.length === 0) {
+      res.json([]);
+      return;
+    }
+
+    const bookings = await Booking.findAll({
+      where: { serviceId: serviceIds },
+      include: [
+        { model: Service },
+        { model: User, attributes: ['id', 'name', 'email'] }
+      ],
+      order: [['date', 'ASC']]
+    });
+
+    res.json(bookings);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 export const createBooking = async (req: Request, res: Response) => {
   try {
     const { serviceId, date } = req.body;
+
+    // Validate date
+    if (!date || isNaN(Date.parse(date))) {
+      res.status(400).json({ message: 'Invalid date format' });
+      return;
+    }
+
+    const service = await Service.findByPk(serviceId);
+    if (!service) {
+      res.status(404).json({ message: 'Service not found' });
+      return;
+    }
+
     const booking = await Booking.create({
       userId: req.user?.userId,
       serviceId,
-      date,
+      date: new Date(date),
       status: 'pending'
     });
     res.status(201).json(booking);
@@ -52,9 +97,21 @@ export const addToWishlist = async (req: Request, res: Response) => {
     const { itemId, itemType } = req.body;
     const data: any = { userId: req.user?.userId };
 
-    if (itemType === 'service') data.serviceId = itemId;
-    else if (itemType === 'product') data.productId = itemId;
-    else {
+    if (itemType === 'service') {
+      const service = await Service.findByPk(itemId);
+      if (!service) {
+        res.status(404).json({ message: 'Service not found' });
+        return;
+      }
+      data.serviceId = itemId;
+    } else if (itemType === 'product') {
+      const product = await Product.findByPk(itemId);
+      if (!product) {
+        res.status(404).json({ message: 'Product not found' });
+        return;
+      }
+      data.productId = itemId;
+    } else {
       res.status(400).json({ message: 'Invalid item type' });
       return;
     }

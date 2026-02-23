@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { Product } from '@/data/mockData';
 
-export const useProducts = () => {
+export const useProducts = (limit?: number) => {
   return useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', limit],
     queryFn: async () => {
-      const { data } = await api.get<Product[]>('/products');
+      const { data } = await api.get<Product[]>(limit ? `/products?limit=${limit}` : '/products');
       return data;
     },
   });

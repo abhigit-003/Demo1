@@ -14,12 +14,16 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Sanitize role to prevent privilege escalation (never allow 'admin' via public API)
+    const safeRole = role === 'provider' ? 'provider' : 'user';
+
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
-      role: role || 'user',
-      providerProfile
+      role: safeRole,
+      providerProfile: safeRole === 'provider' ? providerProfile : null
     });
 
     const token = jwt.sign(

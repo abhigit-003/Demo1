@@ -3,7 +3,10 @@ import Product from '../models/Product';
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.findAll();
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+    const products = await Product.findAll({
+      limit: limit || undefined
+    });
     res.json(products);
   } catch (error) {
     console.error(error);
@@ -27,7 +30,8 @@ export const getProductById = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const product = await Product.create({ ...req.body, providerId: req.user?.userId });
+    const { rating, reviews, ...productData } = req.body;
+    const product = await Product.create({ ...productData, providerId: req.user?.userId });
     res.status(201).json(product);
   } catch (error) {
     console.error(error);
@@ -47,7 +51,8 @@ export const updateProduct = async (req: Request, res: Response) => {
        return;
     }
 
-    await product.update(req.body);
+    const { rating, reviews, ...updateData } = req.body;
+    await product.update(updateData);
     res.json(product);
   } catch (error) {
     console.error(error);
