@@ -8,6 +8,7 @@ import PricingRules from "./pages/PricingRules";
 import CouponManager from "./pages/CouponManager";
 import Analytics from "./pages/Analytics";
 import UserLogs from "./pages/UserLogs";
+import { adminRoutes } from "../features/admin/routes/adminRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -24,4 +25,5 @@ export const router = createBrowserRouter([
       { path: "logs", element: <UserLogs /> },
     ],
   },
+  ...adminRoutes,
 ]);
