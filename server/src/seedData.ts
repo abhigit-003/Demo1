@@ -48,9 +48,10 @@ export const seedDatabase = async () => {
 
     // Seed users
     const userCount = await User.count();
+    const hashedPassword = await bcrypt.hash('password123', 10);
+    
     if (userCount === 0) {
         console.log('Seeding users...');
-        const hashedPassword = await bcrypt.hash('password123', 10);
         await User.create({
             name: 'Demo Provider',
             email: 'provider@raffine.com',
@@ -64,6 +65,19 @@ export const seedDatabase = async () => {
             password: hashedPassword,
             role: 'user'
         });
-        console.log('Seeded demo users (provider@raffine.com / password123)');
+        console.log('Seeded base demo accounts.');
+    }
+
+    // Always ensure the Developer account exists for RBAC operations
+    const devCount = await User.count({ where: { role: 'developer' } });
+    if (devCount === 0) {
+        console.log('Seeding developer account...');
+        await User.create({
+            name: 'System Developer',
+            email: 'developer@raffine.com',
+            password: hashedPassword,
+            role: 'developer'
+        });
+        console.log('Seeded developer account successfully.');
     }
 };

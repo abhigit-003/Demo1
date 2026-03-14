@@ -6,7 +6,7 @@ class User extends Model {
   public name!: string;
   public email!: string;
   public password!: string;
-  public role!: 'user' | 'provider' | 'admin';
+  public role!: 'user' | 'provider' | 'admin' | 'developer';
   public providerProfile?: any; // JSON
 
   public readonly createdAt!: Date;
@@ -37,7 +37,7 @@ User.init(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM('user', 'provider', 'admin'),
+      type: DataTypes.ENUM('user', 'provider', 'admin', 'developer'),
       defaultValue: 'user',
     },
     providerProfile: {
