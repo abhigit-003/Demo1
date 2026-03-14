@@ -24,7 +24,13 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as JwtPayload;
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.error('[SECURITY] JWT_SECRET is not set. Check your .env file.');
+      res.status(500).json({ message: 'Server configuration error' });
+      return;
+    }
+    const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
     req.user = decoded;
     next();
   } catch (error) {
@@ -35,6 +41,14 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 export const authorizeProvider = (req: Request, res: Response, next: NextFunction) => {
   if (req.user?.role !== 'provider' && req.user?.role !== 'admin') {
     res.status(403).json({ message: 'Access denied: Providers only' });
+    return;
+  }
+  next();
+};
+
+export const authorizeDeveloper = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user?.role !== 'developer') {
+    res.status(403).json({ message: 'Access denied: Developers only' });
     return;
   }
   next();

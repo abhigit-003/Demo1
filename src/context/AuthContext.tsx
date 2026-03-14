@@ -6,7 +6,7 @@ interface User {
   id: number;
   email: string;
   name: string;
-  role: "user" | "provider" | "admin";
+  role: "user" | "provider" | "admin" | "developer";
   providerProfile?: any;
 }
 
@@ -34,6 +34,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const initAuth = async () => {
       const token = localStorage.getItem("raffine_token");
       if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      // Proactively check token expiry client-side before making an API call.
+      // This prevents stale/expired tokens from lingering in localStorage.
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = payload.exp && Date.now() >= payload.exp * 1000;
+        if (isExpired) {
+          localStorage.removeItem("raffine_token");
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+      } catch {
+        // Token is malformed — clear it
+        localStorage.removeItem("raffine_token");
+        setUser(null);
         setLoading(false);
         return;
       }

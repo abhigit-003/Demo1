@@ -26,10 +26,16 @@ export const register = async (req: Request, res: Response) => {
       providerProfile: safeRole === 'provider' ? providerProfile : null
     });
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.error('[SECURITY] JWT_SECRET not set in environment. Check .env file.');
+      res.status(500).json({ message: 'Server configuration error' });
+      return;
+    }
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: '1d' }
+      jwtSecret,
+      { expiresIn: (process.env.JWT_EXPIRES_IN || '1d') as jwt.SignOptions['expiresIn'] }
     );
 
     res.status(201).json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
@@ -49,11 +55,22 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.error('[SECURITY] JWT_SECRET not set in environment. Check .env file.');
+      res.status(500).json({ message: 'Server configuration error' });
+      return;
+    }
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: '1d' }
+      jwtSecret,
+      { expiresIn: (process.env.JWT_EXPIRES_IN || '1d') as jwt.SignOptions['expiresIn'] }
     );
+
+    // Audit log: flag successful developer logins
+    if (user.role === 'developer') {
+      console.info(`[AUTH AUDIT ✅] Developer login: ${user.email} at ${new Date().toISOString()}`);
+    }
 
     res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
   } catch (error) {

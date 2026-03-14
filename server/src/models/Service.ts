@@ -10,11 +10,18 @@ class Service extends Model {
   public description!: string;
   public location!: string;
   public specialist!: string;
+  public type!: string;
+  public status!: string;
   public amenities!: string[];
   public image!: string;
   public rating!: number;
   public reviews!: number;
   public providerId!: number;
+  public region?: string;
+  public tier?: string;
+  public capacity?: number;
+  public booked?: number;
+  public coordinates?: { lat: number; lng: number };
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -55,6 +62,14 @@ Service.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    type: {
+      type: DataTypes.STRING,
+      defaultValue: 'service',
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'active',
+    },
     amenities: {
       type: DataTypes.JSON, // Stores array of strings
       defaultValue: [],
@@ -73,7 +88,27 @@ Service.init(
     },
     providerId: {
       type: DataTypes.INTEGER,
-      allowNull: true, // System services might not have a provider
+      allowNull: true,
+    },
+    region: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    tier: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    capacity: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    booked: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    coordinates: {
+      type: DataTypes.JSON,
+      allowNull: true,
     }
   },
   {

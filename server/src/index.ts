@@ -14,7 +14,7 @@ const startServer = async () => {
     console.log('Database connected');
 
     // Sync models
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
 
     // Seed data
     await seedDatabase();

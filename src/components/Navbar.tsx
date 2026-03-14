@@ -96,6 +96,8 @@ const Navbar = () => {
                             </span>
                         )}
                     </Link>
+                    
+
                     {user ? (
                         <>
                             <Link to="/dashboard" className="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-white/5 transition-colors" aria-label="Profile">
@@ -173,6 +175,7 @@ const Navbar = () => {
                                     {link.label}
                                 </Link>
                             ))}
+
                             <div className="pt-8 border-t border-white/5 flex gap-8 items-center">
                                 <Link to="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="text-raffine-gold"><Heart /></Link>
                                 {user ? (

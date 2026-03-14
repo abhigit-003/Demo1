@@ -1,6 +1,6 @@
 import {
   Calendar,
-  DollarSign,
+  IndianRupee,
   Users,
   ShoppingBag,
   TrendingUp,
@@ -13,7 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Link, Navigate } from "react-router-dom";
 
 const providerStats = [
-  { label: "Total Revenue", value: "₹12,430", icon: DollarSign, change: "+12%" },
+  { label: "Total Revenue", value: "₹12,430", icon: IndianRupee, change: "+12%" },
   { label: "Bookings", value: "284", icon: Calendar, change: "+8%" },
   { label: "Clients", value: "1,205", icon: Users, change: "+15%" },
   { label: "Products Sold", value: "432", icon: ShoppingBag, change: "+22%" },
@@ -71,19 +71,19 @@ const Dashboard = () => {
               </h2>
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link
-                  to="/admin/add-service"
+                  to="/admin/legacy/add-service"
                   className="rounded-lg bg-raffine-pink px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-90"
                 >
                   Add New Service
                 </Link>
                 <Link
-                  to="/admin/products"
+                  to="/admin/legacy/products"
                   className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/10"
                 >
                   Manage Products
                 </Link>
                 <Link
-                  to="/admin/analytics"
+                  to="/admin/legacy/analytics"
                   className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/10"
                 >
                   View Analytics
