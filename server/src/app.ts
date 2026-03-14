@@ -27,13 +27,20 @@ app.all(/^\/api.*$/, (req, res) => {
   res.status(404).json({ error: `API route ${req.originalUrl} not found` });
 });
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../../dist')));
+// Only serve static files if NOT on Vercel.
+// Vercel's Edge network automatically handles static files and routing via vercel.json.
+if (!process.env.VERCEL) {
+  // Safe ESM alternative if __dirname is undefined
+  const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+  
+  // Serve static files from the React app
+  app.use(express.static(path.join(currentDir, '../../dist')));
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get(/^(?!\/api).*$/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'));
-});
+  // The "catchall" handler: for any request that doesn't
+  // match one above, send back React's index.html file.
+  app.get(/^(?!\/api).*$/, (req, res) => {
+    res.sendFile(path.join(currentDir, '../../dist/index.html'));
+  });
+}
 
 export default app;
