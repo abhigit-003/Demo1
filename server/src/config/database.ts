@@ -37,8 +37,8 @@ if (dbUrl) {
     } : {}
   });
 } else {
-  // Fallback to SQLite
-  const storage = isTest ? ':memory:' : 'database.sqlite';
+  // Fallback to SQLite (use /tmp on Vercel since root is read-only)
+  const storage = isTest ? ':memory:' : (process.env.VERCEL ? '/tmp/database.sqlite' : 'database.sqlite');
   console.log(`Initializing database connection using SQLite (${storage})... Environment: ${process.env.NODE_ENV}`);
   sequelize = new Sequelize({
     dialect: 'sqlite',
